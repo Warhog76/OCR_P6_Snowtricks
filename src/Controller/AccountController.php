@@ -30,17 +30,38 @@ class AccountController extends AbstractController
         );
     }
 
-    #[Route('/account/resetPass', name: 'resetPass')]
+    #[Route('/account/reset', name: 'reset')]
     public function resetPassword(): Response
     {
         return $this->render('account/reset.html.twig',
         );
     }
 
-    #[Route('/account/newPass', name: 'newPass')]
-    public function newPassword(): Response
+    #[Route('/account/forgot', name: 'forgot')]
+    public function forgotPassword(): Response
     {
-        return $this->render('account/register.html.twig',
+        return $this->render('account/forgot.html.twig',
+        );
+    }
+
+    #[Route('/account/profile', name: 'profile')]
+    public function profile(): Response
+    {
+        return $this->render('account/profile.html.twig',
+        );
+    }
+
+    #[Route('/account/editProfile', name: 'editProfile')]
+    public function editProfile(): Response
+    {
+        return $this->render('account/editProfile.html.twig',
+        );
+    }
+
+    #[Route('/account/logout', name: 'logout')]
+    public function logout(): Response
+    {
+        return $this->render('tricks/home.html.twig',
         );
     }
 }

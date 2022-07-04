@@ -1,6 +1,28 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<div class="container">
+    <div class="col-md-6 offset-md-3">
+        <div class="text-center" >
+            <form>
+                <img class="mb-4" src="{{ asset('images/admin.png') }}" alt="" width="200" height="200">
+                <h1 class="h3 mb-3 fw-normal">Login</h1>
+                <br>
+                <div class="mb-3">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email">
+                </div>
+                <br>
+                <div class="mb-3">
+                    <label for="Password">Password </label>
+                    <input type="password" class="form-control" id="Password">
+                    <a href="{{ path('forgot') }}" class="nav-link">Forget password?</a>
+                </div>
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
 
