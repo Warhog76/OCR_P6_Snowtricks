@@ -20,7 +20,7 @@ class TricksController extends AbstractController
     #[Route("", name: 'home')]
     public function home(): Response
     {
-        return $this->render('tricks/home.html.twig'
+        return $this->render('home.html.twig'
         );
     }
 

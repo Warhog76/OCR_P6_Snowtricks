@@ -61,7 +61,7 @@ class AccountController extends AbstractController
     #[Route('/account/logout', name: 'logout')]
     public function logout(): Response
     {
-        return $this->render('tricks/home.html.twig',
+        return $this->render('home.html.twig',
         );
     }
 }
