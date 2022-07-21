@@ -37,7 +37,7 @@ Ce qu'il est requis pour commencer avec votre projet...
 ## Made with
 * [Bootstrap](http://materializecss.com) - Framework CSS (front-end)
 * [Symfony](https://symfony.com/) - Framework PHP
-* [Twig] (https://twig.symfony.com/) - Template engine for PHP
+* [Twig](https://twig.symfony.com/) - Template engine for PHP
 * [PhpStorm](https://www.jetbrains.com/fr-fr/phpstorm/) - IDE
 
 ## Writers
