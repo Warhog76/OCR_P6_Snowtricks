@@ -20,19 +20,18 @@ the page for creating a new figure;
 the page for modifying a figure;
 the presentation page of a figure (containing the common discussion space around a figure).
 
-### Pré-requis
+### Requested
+For this project, you need :
 
-Ce qu'il est requis pour commencer avec votre projet...
-
-- Programme 1
-- Programme 2
-- etc...
+- PHP 8.1
+- Symfony 6
 
 ### Installation
-
+Work in progress
 
 ## Start project
 
+Work in progress
 
 ## Made with
 * [Bootstrap](http://materializecss.com) - Framework CSS (front-end)
