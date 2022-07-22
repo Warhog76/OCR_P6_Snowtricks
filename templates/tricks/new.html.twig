@@ -5,6 +5,40 @@
 {% endblock %}
 
 {% block body %}
+<div class="container">
+    <br>
+    <form>
+        <fieldset>
+            <legend>Add a new trick</legend>
+            <div class="form-group">
+                <label class="col-form-label mt-4" for="title">Trick's name</label>
+                <input type="text" class="form-control" placeholder="Trick's name" id="title">
+            </div>
+
+            <div class="form-group">
+                <label for="description" class="form-label mt-4">Description</label>
+                <textarea class="form-control" id="description" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="category" class="form-label mt-4">Trick's category</label>
+                <select class="form-select" id="category">
+                    <option>Grab</option>
+                    <option>Rotation</option>
+                    <option>Flip</option>
+                    <option>Slide</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="formFile" class="form-label mt-4">Picture or video</label>
+                <input class="form-control" type="file" id="formFile">
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </fieldset>
+    </form>
+</div>
 
 {% endblock %}
 
