@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Tricks;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,7 +26,7 @@ class TricksController extends AbstractController
     }
 
     #[Route('/tricks/show', name: 'show')]
-    public function show(): Response
+    public function show(Tricks $tricks): Response
     {
         return $this->render('tricks/show.html.twig',
         );
