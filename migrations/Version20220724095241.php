@@ -20,7 +20,7 @@ final class Version20220724095241 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE comment ADD tricks_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE comment ADD tricks_id INT NOT NULL');
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526C3B153154 FOREIGN KEY (tricks_id) REFERENCES tricks (id)');
         $this->addSql('CREATE INDEX IDX_9474526C3B153154 ON comment (tricks_id)');
     }

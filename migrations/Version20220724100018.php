@@ -20,7 +20,7 @@ final class Version20220724100018 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE tricks ADD account_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE tricks ADD account_id INT NOT NULL');
         $this->addSql('ALTER TABLE tricks ADD CONSTRAINT FK_E1D902C19B6B5FBA FOREIGN KEY (account_id) REFERENCES account (id)');
         $this->addSql('CREATE INDEX IDX_E1D902C19B6B5FBA ON tricks (account_id)');
     }
