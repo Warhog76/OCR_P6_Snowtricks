@@ -38,18 +38,18 @@ class AppFixtures extends Fixture
 
         $dateTime = new DateTimeImmutable();
 
-        for ($i=0; $i < 10 ; $i++)
+        for ($i=1; $i <= 10 ; $i++)
         {
-            for ($ii=0; $ii < 4 ; $ii++)
+            for ($j=1; $j <= 4 ; $j++)
             {
                 $category = new Category();
-                $category->setName('category'.($ii+1));
+                $category->setName('category'.$j);
 
                 $manager->persist($category);
             }
 
             $trick = new Tricks();
-            $trick->setName("trick " . ($i+1));
+            $trick->setName("trick " . $i);
             $trick->setDescription("Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression.");
             $trick->setCreatedAt($dateTime);
             $trick->setCategory($category);
@@ -57,7 +57,7 @@ class AppFixtures extends Fixture
 
             /*$trick->setImage($image);*/
 
-            for ($iii=0; $iii < 5; $iii++) {
+            for ($k=0; $k < 5; $k++) {
                 $comment = new comment();
                 $comment->setMessage(substr(str_shuffle(str_repeat("abcdefghijklmnopqrstuvwxyz", 5)), 0, 7));
                 $comment->setCreatedAt($dateTime);

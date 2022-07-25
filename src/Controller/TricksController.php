@@ -26,7 +26,7 @@ class TricksController extends AbstractController
     }
 
     #[Route('/tricks/show', name: 'show')]
-    public function show(Tricks $tricks): Response
+    public function show(): Response
     {
         return $this->render('tricks/show.html.twig',
         );

@@ -21,9 +21,6 @@ class Tricks
     #[ORM\Column(type: 'text')]
     private ?string $description;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private ?string $image;
-
     #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $createdAt;
 
@@ -37,9 +34,13 @@ class Tricks
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category;
 
+    #[ORM\OneToMany(mappedBy: 'tricks', targetEntity: media::class)]
+    private $media;
+
     public function __construct()
     {
         $this->comment = new ArrayCollection();
+        $this->media = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,18 +68,6 @@ class Tricks
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(string $image): self
-    {
-        $this->image = $image;
 
         return $this;
     }
@@ -145,6 +134,36 @@ class Tricks
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, media>
+     */
+    public function getMedia(): Collection
+    {
+        return $this->media;
+    }
+
+    public function addMedium(media $medium): self
+    {
+        if (!$this->media->contains($medium)) {
+            $this->media[] = $medium;
+            $medium->setTricks($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMedium(media $medium): self
+    {
+        if ($this->media->removeElement($medium)) {
+            // set the owning side to null (unless already changed)
+            if ($medium->getTricks() === $this) {
+                $medium->setTricks(null);
+            }
+        }
 
         return $this;
     }
