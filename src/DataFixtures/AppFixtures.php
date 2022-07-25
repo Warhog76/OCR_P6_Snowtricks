@@ -36,14 +36,14 @@ class AppFixtures extends Fixture
 
         $manager->flush();
 
-        $dateTime = new DateTimeImmutable('NOW');
+        $dateTime = new DateTimeImmutable();
 
         for ($i=0; $i < 10 ; $i++)
         {
             for ($i=0; $i < 4 ; $i++)
             {
                 $category = new Category();
-                $category->setName(substr(str_shuffle(str_repeat("abcdefghijklmnopqrstuvwxyz", 5)), 0, 5));
+                $category->setName('category'.($i+1));
 
                 $manager->persist($category);
             }
@@ -54,6 +54,8 @@ class AppFixtures extends Fixture
             $trick->setCreatedAt($dateTime);
             $trick->setCategory($category);
             $trick->setAccount($user);
+
+            /*$trick->setImage($image);*/
 
             for ($ii=0; $ii < 5; $ii++) {
                 $comment = new comment();

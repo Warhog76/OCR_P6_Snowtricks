@@ -6,9 +6,10 @@ use App\Repository\AccountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
-class Account implements \Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface
+class Account implements PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,16 +17,16 @@ class Account implements \Symfony\Component\Security\Core\User\PasswordAuthentic
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $username;
+    private ?string $username = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $email;
+    private ?string $email = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $password;
+    private ?string $password = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $avatar;
+    private ?string $avatar = null;
 
     #[ORM\OneToMany(mappedBy: 'account', targetEntity: tricks::class)]
     private $tricks;
