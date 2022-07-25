@@ -40,10 +40,10 @@ class AppFixtures extends Fixture
 
         for ($i=0; $i < 10 ; $i++)
         {
-            for ($i=0; $i < 4 ; $i++)
+            for ($ii=0; $ii < 4 ; $ii++)
             {
                 $category = new Category();
-                $category->setName('category'.($i+1));
+                $category->setName('category'.($ii+1));
 
                 $manager->persist($category);
             }
@@ -57,7 +57,7 @@ class AppFixtures extends Fixture
 
             /*$trick->setImage($image);*/
 
-            for ($ii=0; $ii < 5; $ii++) {
+            for ($iii=0; $iii < 5; $iii++) {
                 $comment = new comment();
                 $comment->setMessage(substr(str_shuffle(str_repeat("abcdefghijklmnopqrstuvwxyz", 5)), 0, 7));
                 $comment->setCreatedAt($dateTime);
