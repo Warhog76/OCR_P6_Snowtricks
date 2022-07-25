@@ -29,10 +29,10 @@ class Account implements PasswordAuthenticatedUserInterface
     private ?string $avatar = null;
 
     #[ORM\OneToMany(mappedBy: 'account', targetEntity: tricks::class)]
-    private $tricks;
+    private ArrayCollection $tricks;
 
     #[ORM\OneToMany(mappedBy: 'account', targetEntity: comment::class)]
-    private $comments;
+    private ArrayCollection $comments;
 
     public function __construct()
     {

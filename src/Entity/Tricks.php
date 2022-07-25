@@ -16,26 +16,26 @@ class Tricks
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    private ?string $name;
 
     #[ORM\Column(type: 'text')]
-    private $description;
+    private ?string $description;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $image;
+    private ?string $image;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private $createdAt;
+    private ?\DateTimeImmutable $createdAt;
 
     #[ORM\OneToMany(mappedBy: 'tricks', targetEntity: comment::class)]
-    private $comment;
+    private ArrayCollection $comment;
 
     #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'tricks')]
-    private $account;
+    private ?Account $account;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'tricks')]
     #[ORM\JoinColumn(nullable: false)]
-    private $category;
+    private ?Category $category;
 
     public function __construct()
     {

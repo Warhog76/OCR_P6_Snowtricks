@@ -16,10 +16,10 @@ class Category
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    private ?string $name;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: tricks::class)]
-    private $tricks;
+    private ArrayCollection $tricks;
 
     public function __construct()
     {

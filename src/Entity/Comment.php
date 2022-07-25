@@ -14,17 +14,17 @@ class Comment
     private $id;
 
     #[ORM\Column(type: 'text')]
-    private $message;
+    private ?string $message;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private $createdAt;
+    private ?\DateTimeImmutable $createdAt;
 
     #[ORM\ManyToOne(targetEntity: Tricks::class, inversedBy: 'comment')]
-    private $tricks;
+    private ?Tricks $tricks;
 
     #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
-    private $account;
+    private ?Account $account;
 
     public function getId(): ?int
     {
