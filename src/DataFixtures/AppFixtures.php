@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Account;
+use App\Entity\User;
 use App\Entity\Category;
 use App\Entity\Comment;
 use App\Entity\Tricks;
@@ -24,7 +24,7 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $user = new Account();
+        $user = new User();
         $user->setUsername('warhog76');
 
         $user->setEmail('warhog76@free.fr');
@@ -53,7 +53,7 @@ class AppFixtures extends Fixture
             $trick->setDescription("Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression.");
             $trick->setCreatedAt($dateTime);
             $trick->setCategory($category);
-            $trick->setAccount($user);
+            $trick->setUser($user);
 
             /*$trick->setImage($image);*/
 
@@ -62,7 +62,7 @@ class AppFixtures extends Fixture
                 $comment->setMessage(substr(str_shuffle(str_repeat("abcdefghijklmnopqrstuvwxyz", 5)), 0, 7));
                 $comment->setCreatedAt($dateTime);
                 $comment->setTricks($trick);
-                $comment->setAccount($user);
+                $comment->setUser($user);
                 $manager->persist($comment);
             }
 

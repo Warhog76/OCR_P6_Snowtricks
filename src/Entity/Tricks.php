@@ -27,8 +27,8 @@ class Tricks
     #[ORM\OneToMany(mappedBy: 'tricks', targetEntity: comment::class)]
     private ArrayCollection $comment;
 
-    #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'tricks')]
-    private ?Account $account;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tricks')]
+    private ?User $user;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'tricks')]
     #[ORM\JoinColumn(nullable: false)]
@@ -114,14 +114,14 @@ class Tricks
         return $this;
     }
 
-    public function getAccount(): ?Account
+    public function getUser(): ?User
     {
-        return $this->account;
+        return $this->user;
     }
 
-    public function setAccount(?Account $account): self
+    public function setUser(?User $user): self
     {
-        $this->account = $account;
+        $this->user = $user;
 
         return $this;
     }
