@@ -34,7 +34,7 @@ class Tricks
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category;
 
-    #[ORM\OneToMany(mappedBy: 'tricks', targetEntity: media::class)]
+    #[ORM\OneToMany(mappedBy: 'tricks', targetEntity: Media::class)]
     private $media;
 
     public function __construct()
