@@ -1,5 +1,7 @@
 # OCR_P6_Snowtricks
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/016563eec64f4c5793ef9cf9a0b43776)](https://app.codacy.com/gh/Warhog76/OCR_P6_Snowtricks?utm_source=github.com&utm_medium=referral&utm_content=Warhog76/OCR_P6_Snowtricks&utm_campaign=Badge_Grade_Settings)
+
 ## Background
 Jimmy Sweat is an ambitious entrepreneur with a passion for snowboarding. His goal is to create a collaborative website to make this sport known to the general public and to help people learn tricks.
 
