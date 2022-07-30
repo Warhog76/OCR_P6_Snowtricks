@@ -31,10 +31,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     #[ORM\Column(type: 'boolean')]
-    private $isVerified = false;
+    private bool $isVerified = false;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $avatar;
+    private ?string $avatar;
 
     public function getId(): ?int
     {
