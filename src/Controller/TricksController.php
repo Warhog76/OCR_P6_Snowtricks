@@ -57,11 +57,13 @@ class TricksController extends AbstractController
             $this->entityManager->persist($tricks);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('show', ['id' => $tricks->getId()]);
+            return $this->redirectToRoute('show', [
+                'id' => $tricks->getId(),
+            ]);
         }
 
-        return $this->renderForm('tricks/new.html.twig',[
-                'tricks_form' => $form,
+        return $this->render('tricks/new.html.twig',[
+                'tricks_form' => $form->createView(),
             ]
         );
     }
