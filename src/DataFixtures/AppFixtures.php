@@ -26,17 +26,11 @@ class AppFixtures extends Fixture
     {
         $user = new User();
         $user->setUsername('warhog76');
-
         $user->setEmail('warhog76@free.fr');
-
         $password = $this->hasher->hashPassword($user, 'Admin1234');
         $user->setPassword($password);
-
         $manager->persist($user);
-
         $manager->flush();
-
-        $dateTime = new DateTimeImmutable();
 
         for ($i=1; $i <= 10 ; $i++)
         {
@@ -51,7 +45,7 @@ class AppFixtures extends Fixture
             $trick = new Tricks();
             $trick->setName("trick " . $i);
             $trick->setDescription("Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression.");
-            $trick->setCreatedAt($dateTime);
+            $trick->setCreatedAt(new DateTimeImmutable());
             $trick->setCategory($category);
             $trick->setUser($user);
 
@@ -59,8 +53,8 @@ class AppFixtures extends Fixture
 
             for ($k=0; $k < 5; $k++) {
                 $comment = new comment();
-                $comment->setMessage(substr(str_shuffle(str_repeat("abcdefghijklmnopqrstuvwxyz", 5)), 0, 7));
-                $comment->setCreatedAt($dateTime);
+                $comment->setMessage(substr(str_shuffle(str_repeat("#abcdefghilkmnopqrstuvwxyz", 5)), 0, 7));
+                $comment->setCreatedAt(new DateTimeImmutable());
                 $comment->setTricks($trick);
                 $comment->setUser($user);
                 $manager->persist($comment);

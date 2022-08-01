@@ -16,20 +16,6 @@ class UserController extends AbstractController
         ]);
     }
 
-    /*#[Route('/user/register', name: 'register')]
-    public function register(): Response
-    {
-        return $this->render('user/register.html.twig',
-        );
-    }*/
-
-    /*#[Route('/user/login', name: 'login')]
-    public function login(): Response
-    {
-        return $this->render('user/login.html.twig',
-        );
-    }*/
-
     #[Route('/user/reset', name: 'reset')]
     public function resetPassword(): Response
     {
