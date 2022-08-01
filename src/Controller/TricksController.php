@@ -22,14 +22,6 @@ class TricksController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/tricks', name: 'app_tricks')]
-    public function index(): Response
-    {
-        return $this->render('tricks/index.html.twig', [
-            'controller_name' => 'TricksController',
-        ]);
-    }
-
     #[Route("", name: 'home')]
     public function home(TricksRepository $trickRepository): Response
     {
@@ -68,16 +60,21 @@ class TricksController extends AbstractController
             return $this->redirectToRoute('show', ['id' => $tricks->getId()]);
         }
 
-        return $this->render('tricks/new.html.twig',[
-                'tricks_form' => $form->createView(),
+        return $this->renderForm('tricks/new.html.twig',[
+                'tricks_form' => $form,
             ]
         );
     }
 
-    #[Route('/tricks/modify', name: 'tricks_modify')]
-    public function modify(): Response
+    #[Route('/tricks/edit/{id}', name: 'tricks_modify')]
+    public function modify($id): Response
     {
-        return $this->render('tricks/modify.html.twig',
+        $repo = $this->entityManager->getRepository(Tricks::class);
+        $tricks = $repo->find($id);
+
+        return $this->render('tricks/modify.html.twig', [
+                'tricks' => $tricks
+            ]
         );
     }
 }

@@ -16,13 +16,13 @@ class Tricks
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private ?string $name;
+    private ?string $name = null;
 
     #[ORM\Column(type: 'text')]
-    private ?string $description;
+    private ?string $description = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private ?\DateTimeImmutable $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\OneToMany(mappedBy: 'tricks', targetEntity: Comment::class)]
     private $comment;
