@@ -32,18 +32,6 @@ class TricksController extends AbstractController
         ]);
     }
 
-    #[Route('/tricks/{id}', name: 'show')]
-    public function show($id): Response
-    {
-        $repo = $this->entityManager->getRepository(Tricks::class);
-        $tricks = $repo->find($id);
-
-        return $this->render('tricks/show.html.twig', [
-            'tricks' => $tricks
-            ]
-        );
-    }
-
     #[Route('/tricks/new', name: 'tricks_new')]
     public function new(Request $request): Response
     {
@@ -67,6 +55,19 @@ class TricksController extends AbstractController
             ]
         );
     }
+
+    #[Route('/tricks/{id}', name: 'show')]
+    public function show($id): Response
+    {
+        $repo = $this->entityManager->getRepository(Tricks::class);
+        $tricks = $repo->find($id);
+
+        return $this->render('tricks/show.html.twig', [
+            'tricks' => $tricks
+            ]
+        );
+    }
+
 
     #[Route('/tricks/edit/{id}', name: 'tricks_modify')]
     public function modify($id): Response
