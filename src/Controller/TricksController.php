@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Tricks;
 use App\Form\TricksFormType;
+use App\Repository\TricksRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,21 +31,24 @@ class TricksController extends AbstractController
     }
 
     #[Route("", name: 'home')]
-    public function home(): Response
+    public function home(TricksRepository $trickRepository): Response
     {
-        return $this->render('home.html.twig'
-        );
+        $tricks = $trickRepository->findAll();
+
+        return $this->render('home.html.twig',  [
+            'tricks' => $tricks,
+        ]);
     }
 
-    #[Route('/tricks/show', name: 'show')]
-    public function show(): Response
+    #[Route('/tricks/{id}', name: 'show')]
+    public function show($id): Response
     {
-       /* $repo = $this->entityManager->getRepository(Tricks::class);
+        $repo = $this->entityManager->getRepository(Tricks::class);
         $tricks = $repo->find($id);
-*/
-        return $this->render('tricks/show.html.twig', /*[
+
+        return $this->render('tricks/show.html.twig', [
             'tricks' => $tricks
-            ]*/
+            ]
         );
     }
 
@@ -57,11 +61,6 @@ class TricksController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $tricks->setCreatedAt(new \DateTimeImmutable());
-
-            $session = new Session();
-            $user = $session->get('id');
-
-            $tricks->setUser($user);
 
             $this->entityManager->persist($tricks);
             $this->entityManager->flush();

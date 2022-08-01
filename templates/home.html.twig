@@ -6,6 +6,7 @@
 
     <br><br>
     <section class="page-section tricks" id="tricks">
+        {% for trick in tricks %}
         <div class="container">
             <div class="row">
                 <div class="col-md-6 col-lg-4 mb-5">
@@ -15,7 +16,7 @@
                         </svg>
                     <div class="text-center" >
                         <div class="card-body">
-                            <h3><a href="{{ path('show') }}" class="link-dark ">Trick's name</a></h3>
+                            <h3><a href="{{ path('show', {id: trick.id}) }}" class="link-dark ">{{ trick.name }}</a></h3>
                             &nbsp
                             {% if is_granted('ROLE_USER') %}
                             <a href="{{ path('tricks_modify') }}" class="btn btn-success">
@@ -35,6 +36,7 @@
                 </div>
             </div>
         </div>
+        {% endfor %}
     </section>
 {% endblock %}
 

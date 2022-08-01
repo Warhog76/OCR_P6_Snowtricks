@@ -9,26 +9,28 @@
         {{ form_start(tricks_form) }}
 
         <div class="form-group">
-            <label class="col-form-label mt-4" for="title">Trick's name</label>
+            <label class="col-form-label mt-4" for="name">Trick's name</label>
             {{ form_widget(tricks_form.name) }}
         </div>
         <div class="form-group">
-            <label for="description" class="form-label mt-4">Description</label>
+            <label class="form-label mt-4" for="description">Description</label>
             {{ form_widget(tricks_form.description) }}
         </div>
         <div class="form-group">
-            <label for="category" class="form-label mt-4">Trick's category</label>
+            <label class="form-label mt-4" for="category" >Trick's category</label>
             {{ form_widget(tricks_form.category) }}
         </div>
         <div class="form-group">
-            <label for="formFile" class="form-label mt-4">Picture or video</label>
-            <input class="form-control" type="file" id="formFile">
+            <label class="form-label mt-4" for="media" >Picture or video</label>
+            <input class="form-control" type="file" id="media">
         </div>
         <br>
-        {{ form_end(tricks_form) }}
-
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('new_tricks') }}">
         <button type="submit" class="btn btn-primary">Submit</button>
+
+        {{ form_end(tricks_form) }}
+
+
     </div>
 
 {% endblock %}

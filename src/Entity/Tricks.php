@@ -25,7 +25,7 @@ class Tricks
     private ?\DateTimeImmutable $createdAt;
 
     #[ORM\OneToMany(mappedBy: 'tricks', targetEntity: Comment::class)]
-    private ArrayCollection $comment;
+    private $comment;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tricks')]
     private ?User $user;
@@ -35,7 +35,7 @@ class Tricks
     private ?Category $category;
 
     #[ORM\OneToMany(mappedBy: 'tricks', targetEntity: Media::class)]
-    private ArrayCollection $media;
+    private $media;
 
     public function __construct()
     {
