@@ -35,7 +35,7 @@ class Tricks
     private ?Category $category;
 
     #[ORM\OneToMany(mappedBy: 'tricks', targetEntity: Media::class)]
-    private $media;
+    private ArrayCollection $media;
 
     public function __construct()
     {

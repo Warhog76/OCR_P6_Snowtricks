@@ -27,20 +27,34 @@ class AppFixtures extends Fixture
         $user = new User();
         $user->setUsername('warhog76');
         $user->setEmail('warhog76@free.fr');
+        $user->setRoles(array('ROLE_USER'));
         $password = $this->hasher->hashPassword($user, 'Admin1234');
         $user->setPassword($password);
         $manager->persist($user);
         $manager->flush();
 
+
+        $category = new Category();
+        $category->setName('Grab');
+        $manager->persist($category);
+
+        $category2 = new Category();
+        $category2->setName('Rotation');
+        $manager->persist($category2);
+
+        $category3 = new Category();
+        $category3->setName('Flip');
+        $manager->persist($category3);
+
+        $category4 = new Category();
+        $category4->setName('Slide');
+        $manager->persist($category4);
+
+        $manager->flush();
+
+        /*
         for ($i=1; $i <= 10 ; $i++)
         {
-            for ($j=1; $j <= 4 ; $j++)
-            {
-                $category = new Category();
-                $category->setName('category'.$j);
-
-                $manager->persist($category);
-            }
 
             $trick = new Tricks();
             $trick->setName("trick " . $i);
@@ -49,7 +63,7 @@ class AppFixtures extends Fixture
             $trick->setCategory($category);
             $trick->setUser($user);
 
-            /*$trick->setImage($image);*/
+            $trick->setImage($image);
 
             for ($k=0; $k < 5; $k++) {
                 $comment = new comment();
@@ -62,6 +76,6 @@ class AppFixtures extends Fixture
 
             $manager->persist($trick);
         }
-        $manager->flush();
+        $manager->flush();*/
     }
 }
