@@ -1,44 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-
-{% endblock %}
-
 {% block body %}
-<div class="container">
-    <br>
-    <form>
-        <fieldset>
-            <legend>Add a new trick</legend>
-            <div class="form-group">
-                <label class="col-form-label mt-4" for="title">Trick's name</label>
-                <input type="text" class="form-control" placeholder="Trick's name" id="title">
-            </div>
 
-            <div class="form-group">
-                <label for="description" class="form-label mt-4">Description</label>
-                <textarea class="form-control" id="description" rows="3"></textarea>
-            </div>
+    <div class="container">
+        <br>
+        <legend>Add a new trick</legend>
 
-            <div class="form-group">
-                <label for="category" class="form-label mt-4">Trick's category</label>
-                <select class="form-select" id="category">
-                    <option>Grab</option>
-                    <option>Rotation</option>
-                    <option>Flip</option>
-                    <option>Slide</option>
-                </select>
-            </div>
+        {{ form_start(tricks_form) }}
 
-            <div class="form-group">
-                <label for="formFile" class="form-label mt-4">Picture or video</label>
-                <input class="form-control" type="file" id="formFile">
-            </div>
-            <br>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </fieldset>
-    </form>
-</div>
+        <div class="form-group">
+            <label class="col-form-label mt-4" for="name">Trick's name</label>
+            {{ form_widget(tricks_form.name) }}
+        </div>
+        <div class="form-group">
+            <label class="form-label mt-4" for="description">Description</label>
+            {{ form_widget(tricks_form.description) }}
+        </div>
+        <div class="form-group">
+            <label class="form-label mt-4" for="category" >Trick's category</label>
+            {{ form_widget(tricks_form.category) }}
+        </div>
+        <div class="form-group">
+            <label class="form-label mt-4" for="media" >Picture or video</label>
+            <input class="form-control" type="file" id="media">
+        </div>
+        <br>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('new_tricks') }}">
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+        {{ form_end(tricks_form) }}
+
+
+    </div>
 
 {% endblock %}
 

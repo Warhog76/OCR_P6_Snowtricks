@@ -22,9 +22,9 @@ class Comment
     #[ORM\ManyToOne(targetEntity: Tricks::class, inversedBy: 'comment')]
     private ?Tricks $tricks;
 
-    #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'comments')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Account $account;
+    private ?User $user;
 
     public function getId(): ?int
     {
@@ -67,14 +67,14 @@ class Comment
         return $this;
     }
 
-    public function getAccount(): ?Account
+    public function getUser(): ?User
     {
-        return $this->account;
+        return $this->user;
     }
 
-    public function setAccount(?Account $account): self
+    public function setUser(?User $user): self
     {
-        $this->account = $account;
+        $this->user = $user;
 
         return $this;
     }

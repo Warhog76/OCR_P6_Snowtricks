@@ -12,12 +12,12 @@
                 <legend>Modify a trick</legend>
                 <div class="form-group">
                     <label class="col-form-label mt-4" for="title">Trick's name</label>
-                    <input type="text" class="form-control" placeholder="Trick's name" id="title">
+                    <input type="text" class="form-control" placeholder="Trick's name" id="title" value="{{ tricks.name }}">
                 </div>
 
                 <div class="form-group">
                     <label for="description" class="form-label mt-4">Description</label>
-                    <textarea class="form-control" id="description" rows="3"></textarea>
+                    <textarea class="form-control" id="description" rows="3">{{ tricks.description }}</textarea>
                 </div>
 
                 <div class="form-group">

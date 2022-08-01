@@ -2,9 +2,19 @@
 
 {% block body %}
 
-{% endblock %}
-
-{% block title %}
+<div class="container">
+    <article>
+        <br>
+        <h2>{{ tricks.name }}</h2>
+        <hr>
+        <div class="metadata">Ecrit le {{ tricks.createdAt | date('d/m/y') }} a {{ tricks.createdAt | date('H:i') }}
+        </div>
+        <hr>
+        <div class="content">
+            {{ tricks.description }}
+        </div>
+    </article>
+</div>
 
 {% endblock %}
 

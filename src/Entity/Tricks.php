@@ -16,25 +16,25 @@ class Tricks
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private ?string $name;
+    private ?string $name = null;
 
     #[ORM\Column(type: 'text')]
-    private ?string $description;
+    private ?string $description = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private ?\DateTimeImmutable $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'tricks', targetEntity: comment::class)]
-    private ArrayCollection $comment;
+    #[ORM\OneToMany(mappedBy: 'tricks', targetEntity: Comment::class)]
+    private $comment;
 
-    #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'tricks')]
-    private ?Account $account;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tricks')]
+    private ?User $user;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'tricks')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category;
 
-    #[ORM\OneToMany(mappedBy: 'tricks', targetEntity: media::class)]
+    #[ORM\OneToMany(mappedBy: 'tricks', targetEntity: Media::class)]
     private $media;
 
     public function __construct()
@@ -114,14 +114,14 @@ class Tricks
         return $this;
     }
 
-    public function getAccount(): ?Account
+    public function getUser(): ?User
     {
-        return $this->account;
+        return $this->user;
     }
 
-    public function setAccount(?Account $account): self
+    public function setUser(?User $user): self
     {
-        $this->account = $account;
+        $this->user = $user;
 
         return $this;
     }
