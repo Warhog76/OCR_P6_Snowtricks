@@ -23,13 +23,6 @@ class UserController extends AbstractController
         );
     }
 
-    #[Route('/user/forgot', name: 'forgot')]
-    public function forgotPassword(): Response
-    {
-        return $this->render('user/forgot.html.twig',
-        );
-    }
-
     #[Route('/user/profile', name: 'profile')]
     public function profile(): Response
     {

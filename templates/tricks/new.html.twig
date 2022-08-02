@@ -21,8 +21,8 @@
             {{ form_widget(tricks_form.category) }}
         </div>
         <div class="form-group">
-            <label class="form-label mt-4" for="media" >Picture or video</label>
-            <input class="form-control" type="file" id="media">
+            <label class="form-label mt-4" for="media" >Pictures and/or videos</label>
+            <input class="form-control" type="File" multiple id="media">
         </div>
         <br>
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('new_tricks') }}">
