@@ -14,6 +14,18 @@
             {{ tricks.description }}
         </div>
     </article>
+<br><HR>
+    {{ form_start(comment_form) }}
+
+    <div class="form-group">
+        <label class="col-form-label mt-4" for="name">Your comment</label>
+        {{ form_widget(comment_form.message) }}
+    </div>
+    <br>
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('new_comment') }}">
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+    {{ form_end(comment_form) }}
 </div>
 
 {% endblock %}
