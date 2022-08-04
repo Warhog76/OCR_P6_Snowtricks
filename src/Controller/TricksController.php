@@ -107,6 +107,8 @@ class TricksController extends AbstractController
 
             $this->entityManager->persist($comment);
             $this->entityManager->flush();
+
+
         }
         return $this->render('tricks/show.html.twig', [
             'tricks' => $tricks,

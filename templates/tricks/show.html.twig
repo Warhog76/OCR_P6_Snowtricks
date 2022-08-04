@@ -3,7 +3,6 @@
 {% block body %}
 
 <div class="container">
-
     <article>
         <br>
         <h2>{{ tricks.name }}</h2>
@@ -15,26 +14,39 @@
             {{ tricks.description }}
         </div>
     </article>
-<br><hr>
-    {% if is_granted('ROLE_USER') %}
+</div>
+
+<div class="container">
+    <hr>
+    {%  if (comments == null)  %}
+        <h4>No comments at this time... Be first!</h4>
+    {% else %}
     {% for comment in comments %}
-    <div class="content">
-        {{ comment.message }}
-    </div>
+            <p class="blog-post-meta">{{ comment.createdAt | date('d/m/y') }} a {{ comment.createdAt | date('H:i') }}</a></p>
+
+            <p>{{ comment.message }}</p>
+
     {% endfor %}
-<br><hr>
-    {{ form_start(comment_form) }}
-
-    <div class="form-group">
-        <label class="col-form-label mt-4" for="name">Leave us your comment</label>
-        {{ form_widget(comment_form.message) }}
-    </div>
-    <br>
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token('new_comment') }}">
-    <button type="submit" class="btn btn-primary">Submit</button>
-
-    {{ form_end(comment_form) }}
     {% endif %}
+
+    <hr>
+</div>
+
+<div class="container">
+    {% if is_granted('ROLE_USER') %}
+        {{ form_start(comment_form) }}
+
+        <div class="form-group">
+            <label class="col-form-label mt-4" for="name">Leave us your comment</label>
+            {{ form_widget(comment_form.message) }}
+        </div>
+        <br>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('new_comment') }}">
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+        {{ form_end(comment_form) }}
+    {% endif %}
+
 </div>
 
 {% endblock %}
