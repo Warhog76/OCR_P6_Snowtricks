@@ -7,17 +7,35 @@
         <br>
         <h2>{{ tricks.name }}</h2>
         <hr>
-        <div class="metadata">Ecrit le {{ tricks.createdAt | date('d/m/y') }} a {{ tricks.createdAt | date('H:i') }}
+        <div class="metadata">Posted the {{ tricks.createdAt | date('d/m/y') }} at {{ tricks.createdAt | date('H:i') }} by
         </div>
         <hr>
         <div class="content">
             {{ tricks.description }}
         </div>
+        <hr>
     </article>
 </div>
 
+{% if is_granted('ROLE_USER') %}
+    <div class="container">
+
+            {{ form_start(comment_form) }}
+
+            <div class="form-group">
+                <label class="col-form-label mt-4" for="name">Leave us your comment</label>
+                {{ form_widget(comment_form.message) }}
+            </div>
+            <br>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('new_comment') }}">
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+            {{ form_end(comment_form) }}
+        <hr>
+    </div>
+{% endif %}
+
 <div class="container">
-    <hr>
     {%  if (comments == null)  %}
         <h4>No comments at this time... Be first!</h4>
     {% else %}
@@ -32,22 +50,7 @@
     <hr>
 </div>
 
-<div class="container">
-    {% if is_granted('ROLE_USER') %}
-        {{ form_start(comment_form) }}
 
-        <div class="form-group">
-            <label class="col-form-label mt-4" for="name">Leave us your comment</label>
-            {{ form_widget(comment_form.message) }}
-        </div>
-        <br>
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('new_comment') }}">
-        <button type="submit" class="btn btn-primary">Submit</button>
-
-        {{ form_end(comment_form) }}
-    {% endif %}
-
-</div>
 
 {% endblock %}
 
