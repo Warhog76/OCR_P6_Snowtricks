@@ -30,10 +30,12 @@
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label for="formFile" class="form-label mt-4">Picture or video</label>
-                    <input class="form-control" type="file" id="formFile">
-                </div>
+                {% for media in medias %}
+                    <div>
+                        <img src="{{ asset('/uploads/'~media.name) }}" alt="" width="150">
+                    </div>
+                {% endfor %}
+
                 <br>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </fieldset>

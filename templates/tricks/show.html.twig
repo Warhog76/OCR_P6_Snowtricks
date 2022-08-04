@@ -3,6 +3,7 @@
 {% block body %}
 
 <div class="container">
+
     <article>
         <br>
         <h2>{{ tricks.name }}</h2>
@@ -14,11 +15,18 @@
             {{ tricks.description }}
         </div>
     </article>
-<br><HR>
+<br><hr>
+    {% if is_granted('ROLE_USER') %}
+    {% for comment in comments %}
+    <div class="content">
+        {{ comment.message }}
+    </div>
+    {% endfor %}
+<br><hr>
     {{ form_start(comment_form) }}
 
     <div class="form-group">
-        <label class="col-form-label mt-4" for="name">Your comment</label>
+        <label class="col-form-label mt-4" for="name">Leave us your comment</label>
         {{ form_widget(comment_form.message) }}
     </div>
     <br>
@@ -26,6 +34,7 @@
     <button type="submit" class="btn btn-primary">Submit</button>
 
     {{ form_end(comment_form) }}
+    {% endif %}
 </div>
 
 {% endblock %}
