@@ -2,12 +2,24 @@
 
 {% block body %}
 
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for media in medias %}
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="{{ asset('/uploads/'~media.name) }}" class="img-fluid" alt="" >
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
 <div class="container">
     <article>
         <br>
         <h2>{{ tricks.name }}</h2>
         <hr>
-        <div class="metadata">Posted the {{ tricks.createdAt | date('d/m/y') }} at {{ tricks.createdAt | date('H:i') }} by
+        <div class="metadata">Posted the {{ tricks.createdAt | date('d/m/y') }} at {{ tricks.createdAt | date('H:i') }} by {{ user.username }}
         </div>
         <hr>
         <div class="content">
@@ -19,9 +31,7 @@
 
 {% if is_granted('ROLE_USER') %}
     <div class="container">
-
             {{ form_start(comment_form) }}
-
             <div class="form-group">
                 <label class="col-form-label mt-4" for="name">Leave us your comment</label>
                 {{ form_widget(comment_form.message) }}
@@ -29,13 +39,19 @@
             <br>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('new_comment') }}">
             <button type="submit" class="btn btn-primary">Submit</button>
-
             {{ form_end(comment_form) }}
         <hr>
     </div>
+    {% else %}
+        <div class="container">
+            <div class="alert alert-dismissible alert-warning">
+                <p class="mb-0">You need to be connected to keep us a comment!</p>
+            </div>
+        </div>
 {% endif %}
 
 <div class="container">
+    <hr>
     {%  if (comments == null)  %}
         <h4>No comments at this time... Be first!</h4>
     {% else %}
