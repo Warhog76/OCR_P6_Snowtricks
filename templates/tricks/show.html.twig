@@ -2,6 +2,15 @@
 
 {% block body %}
 
+    <!-- Header -->
+    <header class="masthead" style="height: 50vh;background: url no-repeat;background-size: cover;">
+        <div class="container d-flex h-100 align-items-center">
+            <div class="mx-auto text-center">
+                <h1 class="text-uppercase mx-auto my-0">{{ tricks.name }}</h1>
+            </div>
+        </div>
+    </header>
+
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             {% for media in medias %}
@@ -14,10 +23,9 @@
         </div>
     </div>
 
-<div class="container">
-    <article>
-        <br>
-        <h2>{{ tricks.name }}</h2>
+    <!-- Tricks -->
+    <div class="container">
+        <article>
         <hr>
         <div class="metadata">Posted the {{ tricks.createdAt | date('d/m/y') }} at {{ tricks.createdAt | date('H:i') }} by {{ user.username }}
         </div>
@@ -27,46 +35,49 @@
         </div>
         <hr>
     </article>
-</div>
+    </div>
 
-{% if is_granted('ROLE_USER') %}
-    <div class="container">
+    <!-- Comment form -->
+    {% if is_granted('ROLE_USER') %}
+        <div class="container">
             {{ form_start(comment_form) }}
             <div class="form-group">
-                <label class="col-form-label mt-4" for="name">Leave us your comment</label>
+                <legend class="mt-4">Leave us your comment</legend>
                 {{ form_widget(comment_form.message) }}
             </div>
             <br>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('new_comment') }}">
             <button type="submit" class="btn btn-primary">Submit</button>
             {{ form_end(comment_form) }}
-        <hr>
-    </div>
+            <hr>
+        </div>
     {% else %}
         <div class="container">
-            <div class="alert alert-dismissible alert-warning">
+            <div class="alert alert-dismissible alert-info">
                 <p class="mb-0">You need to be connected to keep us a comment!</p>
             </div>
         </div>
-{% endif %}
-
-<div class="container">
-    <hr>
-    {%  if (comments == null)  %}
-        <h4>No comments at this time... Be first!</h4>
-    {% else %}
-    {% for comment in comments %}
-            <p class="blog-post-meta">{{ comment.createdAt | date('d/m/y') }} a {{ comment.createdAt | date('H:i') }}</a></p>
-
-            <p>{{ comment.message }}</p>
-
-    {% endfor %}
     {% endif %}
 
-    <hr>
-</div>
-
-
-
+    <!-- All comments -->
+    <div class="container">
+        {%  if (comments == null)  %}
+            <legend class="mt-4">No comments at this time... Be first!</legend>
+            <hr>
+        {% else %}
+            <legend class="mt-4">All yours comments</legend>
+            {% for comment in comments %}
+                {% if (user.avatar == null) %}
+                    <img src="/public/images/avatar/default.png" alt="" >
+                {% endif %}
+                <div class="card bg-light mb-3" style="max-width: 50rem;">
+                    <div class="card-header">{{ user.username }} commented {{ comment.createdAt | date('d/m/y') }} at {{ comment.createdAt | date('H:i') }}</div>
+                    <div class="card-body">
+                        <p class="card-text">{{ comment.message }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
 {% endblock %}
 

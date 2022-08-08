@@ -76,6 +76,7 @@ class TricksController extends AbstractController
 
             $this->entityManager->persist($tricks);
             $this->entityManager->flush();
+            $this->addFlash('success', 'Trick created');
 
             return $this->redirectToRoute('show', [
                 'id' => $tricks->getId(),
@@ -130,7 +131,18 @@ class TricksController extends AbstractController
         $tricksRepo = $this->entityManager->getRepository(Tricks::class);
         $mediaRepo = $this->entityManager->getRepository(Media::class);
         $tricks = $tricksRepo->find($id);
+/*
+        if (!$tricks) {
+            throw $this->createNotFoundException(
+                'No tricks found for id '.$id
+            );
+        }
 
+        $tricks->setName('New product name!');
+        $tricks->setDescription('');
+        $tricks->setCreatedAt(new \DateTimeImmutable());
+        $this->entityManager->flush();
+*/
         return $this->render('tricks/modify.html.twig', [
                 'tricks' => $tricks,
                 'medias' => $mediaRepo->findby([
