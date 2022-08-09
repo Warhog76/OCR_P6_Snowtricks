@@ -2,19 +2,82 @@
 
 {% block body %}
 
-<div class="container">
-    <article>
-        <br>
-        <h2>{{ tricks.name }}</h2>
+    <!-- Header -->
+    <header class="masthead" style="height: 50vh;background: url no-repeat;background-size: cover;">
+        <div class="container d-flex h-100 align-items-center">
+            <div class="mx-auto text-center">
+                <h1 class="text-uppercase mx-auto my-0">{{ tricks.name }}</h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for media in medias %}
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="{{ asset('/uploads/'~media.name) }}" class="img-fluid" alt="" >
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Tricks -->
+    <div class="container">
+        <article>
         <hr>
-        <div class="metadata">Ecrit le {{ tricks.createdAt | date('d/m/y') }} a {{ tricks.createdAt | date('H:i') }}
+        <div class="metadata">Posted the {{ tricks.createdAt | date('d/m/y') }} at {{ tricks.createdAt | date('H:i') }} by {{ user.username }}
         </div>
         <hr>
         <div class="content">
             {{ tricks.description }}
         </div>
+        <hr>
     </article>
-</div>
+    </div>
 
+    <!-- Comment form -->
+    {% if is_granted('ROLE_USER') %}
+        <div class="container">
+            {{ form_start(comment_form) }}
+            <div class="form-group">
+                <legend class="mt-4">Leave us your comment</legend>
+                {{ form_widget(comment_form.message) }}
+            </div>
+            <br>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('new_comment') }}">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            {{ form_end(comment_form) }}
+            <hr>
+        </div>
+    {% else %}
+        <div class="container">
+            <div class="alert alert-dismissible alert-info">
+                <p class="mb-0">You need to be connected to keep us a comment!</p>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- All comments -->
+    <div class="container">
+        {%  if (comments == null)  %}
+            <legend class="mt-4">No comments at this time... Be first!</legend>
+            <hr>
+        {% else %}
+            <legend class="mt-4">All yours comments</legend>
+            {% for comment in comments %}
+                {% if (user.avatar == null) %}
+                    <img src="/public/images/avatar/default.png" alt="" >
+                {% endif %}
+                <div class="card bg-light mb-3" style="max-width: 50rem;">
+                    <div class="card-header">{{ user.username }} commented {{ comment.createdAt | date('d/m/y') }} at {{ comment.createdAt | date('H:i') }}</div>
+                    <div class="card-body">
+                        <p class="card-text">{{ comment.message }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
 {% endblock %}
 
