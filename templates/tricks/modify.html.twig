@@ -14,7 +14,7 @@
                 {% for media in medias %}
                         <div class="col">
                             <div class="card shadow-sm">
-                                <img src="{{ asset('/uploads/'~media.name) }}" alt="" >
+                                <img src="{{ asset(media.path) }}" alt="" >
                                 <rect width="50%" height="50%" fill="#868e96"></rect>
                                 <div class="text-center" >
                                     <div class="card-body">
