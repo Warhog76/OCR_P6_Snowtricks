@@ -138,15 +138,20 @@ class Tricks
         return $this;
     }
 
+    public function getFirstImage() : ?Media
+    {
+        return $this->media->first() ?: null;
+    }
+
     /**
-     * @return Collection<int, media>
+     * @return Collection<int, Media>
      */
     public function getMedia(): Collection
     {
         return $this->media;
     }
 
-    public function addMedium(media $medium): self
+    public function addMedium(Media $medium): self
     {
         if (!$this->media->contains($medium)) {
             $this->media[] = $medium;
@@ -156,7 +161,7 @@ class Tricks
         return $this;
     }
 
-    public function removeMedium(media $medium): self
+    public function removeMedium(Media $medium): self
     {
         if ($this->media->removeElement($medium)) {
             // set the owning side to null (unless already changed)
