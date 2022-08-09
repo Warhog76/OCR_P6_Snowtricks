@@ -8,6 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: MediaRepository::class)]
 class Media
 {
+    public const FILE_BASE_PATH = 'uploads';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -47,4 +49,11 @@ class Media
 
         return $this;
     }
+
+    public function getPath() :string
+    {
+       return self::FILE_BASE_PATH.DIRECTORY_SEPARATOR.$this->name;
+
+    }
+
 }

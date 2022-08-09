@@ -30,7 +30,7 @@ class TricksController extends AbstractController
     }
 
     #[Route("", name: 'home')]
-    public function home(TricksRepository $trickRepo, MediaRepository $mediaRepo): Response
+    public function home(TricksRepository $trickRepo): Response
     {
         $tricks = $trickRepo->findAll();
 
@@ -67,7 +67,7 @@ class TricksController extends AbstractController
                 );
 
                 // On crée l'image dans la base de données
-                $img = new media();
+                $img = new Media();
                 $img->setName($fichier);
                 $this->entityManager->persist($img);
                 $tricks->addMedium($img);

@@ -16,7 +16,7 @@
         {% endblock %}
     </head>
     <body>
-    {% include 'macros/alerts.html.twig' %}
+
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="home">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ path('home') }}">SnowTricks</a>
@@ -56,6 +56,9 @@
                 </div>
             </div>
         </nav>
+        <div class="container">
+            {% include 'macros/alerts.html.twig' %}
+        </div>
 
         {% block body %}{% endblock %}
     </body>

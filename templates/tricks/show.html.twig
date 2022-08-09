@@ -16,7 +16,7 @@
             {% for media in medias %}
                 <div class="col">
                     <div class="card shadow-sm">
-                        <img src="{{ asset('/uploads/'~media.name) }}" class="img-fluid" alt="" >
+                        <img src="{{ asset(media.path) }}" class="img-fluid" alt="" >
                     </div>
                 </div>
             {% endfor %}
@@ -68,7 +68,7 @@
             <legend class="mt-4">All yours comments</legend>
             {% for comment in comments %}
                 {% if (user.avatar == null) %}
-                    <img src="/public/images/avatar/default.png" alt="" >
+                    <img src="{{ asset('/images/avatar/default.png') }}" alt="" >
                 {% endif %}
                 <div class="card bg-light mb-3" style="max-width: 50rem;">
                     <div class="card-header">{{ user.username }} commented {{ comment.createdAt | date('d/m/y') }} at {{ comment.createdAt | date('H:i') }}</div>
