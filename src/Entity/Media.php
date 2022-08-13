@@ -21,6 +21,9 @@ class Media
     #[ORM\ManyToOne(targetEntity: Tricks::class, inversedBy: 'media')]
     private ?Tricks $tricks;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $type;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -54,6 +57,18 @@ class Media
     {
        return self::FILE_BASE_PATH.DIRECTORY_SEPARATOR.$this->name;
 
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
     }
 
 }
