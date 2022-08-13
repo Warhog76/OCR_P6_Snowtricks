@@ -11,6 +11,7 @@ use App\Repository\CommentRepository;
 use App\Repository\MediaRepository;
 use App\Repository\TricksRepository;
 use App\Repository\UserRepository;
+use App\Services\TricksHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,7 +41,7 @@ class TricksController extends AbstractController
     }
 
     #[Route('/tricks/new', name: 'tricks_new')]
-    public function new(Request $request): Response
+    public function new(Request $request, TricksHelper $helper): Response
     {
         $tricks = new Tricks();
         $form = $this->createForm(TricksFormType::class, $tricks);
@@ -49,30 +50,14 @@ class TricksController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $tricks->setCreatedAt(new \DateTimeImmutable());
 
-            $this->denyAccessUnlessGranted('ROLE_USER');
             $user = $this->getUser();
             $tricks->setUser($user);
 
-            $images = $form->get('media')->getData();
+            $images = $form->get('images')->getData();
+            $helper->imageUpload($tricks, $images);
 
-            // On boucle sur les images
-            foreach($images as $image){
-                // On génère un nouveau nom de fichier
-                $fichier = md5(uniqid()).'.'.$image->guessExtension();
-
-                // On copie le fichier dans le dossier uploads
-                $image->move(
-                    $this->getParameter('images_directory'),
-                    $fichier
-                );
-
-                // On crée l'image dans la base de données
-                $img = new Media();
-                $img->setName($fichier);
-                $this->entityManager->persist($img);
-                $tricks->addMedium($img);
-
-            }
+            $video = $form->get('videos')->getData();
+            $helper->videoUpload($tricks,$video);
 
             $this->entityManager->persist($tricks);
             $this->entityManager->flush();
@@ -124,30 +109,53 @@ class TricksController extends AbstractController
         );
     }
 
-
     #[Route('/tricks/edit/{id}', name: 'tricks_modify')]
-    public function modify($id): Response
+    public function modify($id,Request $request, Tricks $tricks, MediaRepository $mediaRepo): Response
     {
-        $tricksRepo = $this->entityManager->getRepository(Tricks::class);
-        $mediaRepo = $this->entityManager->getRepository(Media::class);
-        $tricks = $tricksRepo->find($id);
-/*
-        if (!$tricks) {
-            throw $this->createNotFoundException(
-                'No tricks found for id '.$id
-            );
-        }
 
-        $tricks->setName('New product name!');
-        $tricks->setDescription('');
-        $tricks->setCreatedAt(new \DateTimeImmutable());
-        $this->entityManager->flush();
-*/
-        return $this->render('tricks/modify.html.twig', [
+        $form = $this->createForm(TricksFormType::class, $tricks);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $tricks=$form->getData();
+
+            $this->entityManager->persist($tricks);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'Trick modified');
+
+            return $this->redirectToRoute('show', [
+                'id' => $tricks->getId(),
+            ]);
+        }
+            return $this->render('tricks/modify.html.twig', [
                 'tricks' => $tricks,
+                'form' => $form,
                 'medias' => $mediaRepo->findby([
                     'tricks' => $tricks->getId()]),
-            ]
-        );
+            ]);
+    }
+
+    #[Route('/tricks/delete/{id}', name: 'tricks_delete')]
+    public function delete($id, TricksRepository $tricksRepo, MediaRepository $mediaRepo, CommentRepository $commentRepo): Response
+    {
+        $tricks = $tricksRepo->find($id);
+
+        $medias = $mediaRepo->findby(['tricks' => $tricks->getId()]);
+        foreach ($medias as $media){
+            $this->entityManager->remove($media);
+        }
+
+        $comments = $commentRepo->findby(['tricks' => $tricks->getId()]);
+        foreach ($comments as $comment){
+            $this->entityManager->remove($comment);
+        }
+
+        $this->entityManager->remove($tricks);
+        $this->entityManager->flush();
+        $this->addFlash('success', 'Trick deleted');
+
+        return $this->redirectToRoute('home');
     }
 }
