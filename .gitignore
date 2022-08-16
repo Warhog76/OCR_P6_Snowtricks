@@ -1,4 +1,3 @@
-
 ###> symfony/framework-bundle ###
 
 /.env.local
@@ -21,3 +20,4 @@
 
 ###> symfony/phpunit-bridge ###
 ###< symfony/phpunit-bridge ###
+/node_modules/
