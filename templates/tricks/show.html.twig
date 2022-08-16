@@ -13,13 +13,22 @@
 
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            {% for media in medias %}
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <img src="{{ asset(media.path) }}" class="img-fluid" alt="" >
-                    </div>
-                </div>
-            {% endfor %}
+            {% if(medias == null) %}
+                <img src="{{ asset('default_images/tricks.jpg') }}" alt="">
+
+            {% else %}
+                {% for media in medias %}
+                    {% if (media.type == "video") %}
+                        <iframe width="560" height="315" src="{{ asset(media.name) }}" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    {% else %}
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                <img src="{{ asset(media.path) }}" class="img-fluid" alt="" >
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 
@@ -61,23 +70,37 @@
 
     <!-- All comments -->
     <div class="container">
-        {%  if (comments == null)  %}
-            <legend class="mt-4">No comments at this time... Be first!</legend>
-            <hr>
-        {% else %}
-            <legend class="mt-4">All yours comments</legend>
-            {% for comment in comments %}
-                {% if (user.avatar == null) %}
-                    <img src="{{ asset('/images/avatar/default.png') }}" alt="" >
-                {% endif %}
-                <div class="card bg-light mb-3" style="max-width: 50rem;">
-                    <div class="card-header">{{ user.username }} commented {{ comment.createdAt | date('d/m/y') }} at {{ comment.createdAt | date('H:i') }}</div>
-                    <div class="card-body">
-                        <p class="card-text">{{ comment.message }}</p>
+        <div class="containers">
+
+
+        </div>
+
+        <div class="container">
+            {%  if (comments == null)  %}
+                <legend class="mt-4">No comments at this time... Be first!</legend>
+                <hr>
+            {% else %}
+                <legend class="mt-4">All yours comments</legend>
+                {% for comment in comments %}
+                    <div class="containers">
+                        {% if (user.avatar == null) %}
+                            <img src="{{ asset('/default_images/avatar.png') }}" alt="" >
+                        {% else %}
+
+                        {% endif %}
                     </div>
-                </div>
-            {% endfor %}
-        {% endif %}
+
+                    <div class="containers">
+                        <div class="card bg-light mb-3" style="max-width: 50rem;">
+                            <div class="card-header">{{ user.username }} commented {{ comment.createdAt | date('d/m/y') }} at {{ comment.createdAt | date('H:i') }}</div>
+                            <div class="card-body">
+                                <p class="card-text">{{ comment.message }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
     </div>
 {% endblock %}
 
