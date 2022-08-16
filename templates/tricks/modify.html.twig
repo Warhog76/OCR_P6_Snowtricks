@@ -6,58 +6,68 @@
 
 {% block body %}
     <div class="container">
-        <br>
-        <form>
-            <legend>Modify a trick</legend>
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                        {% for media in medias %}
-                            <div class="col">
-                                <div class="card shadow-sm">
-                                    <img src="{{ asset(media.path) }}" alt="" >
-                                    <rect width="50%" height="50%" fill="#868e96"></rect>
-                                    <div class="text-center" >
-                                        <div class="card-body">
-                                            {% if is_granted('ROLE_USER') %}
-                                                &nbsp
-                                                <a href="" class="btn btn-danger">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
-                                                    </svg>
-                                                </a>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
+    <br>
+    <legend>Modify a trick</legend>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for media in medias %}
+            <div class="col">
+                <div class="card shadow-sm">
+                {% if (media.type == "video") %}
+                    <iframe width="560" height="315" src="{{ asset(media.name) }}" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+                {% else %}
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img src="{{ asset(media.path) }}" class="img-fluid" alt="" >
+                        </div>
                     </div>
+                {% endif %}
 
-                <div class="form-group">
-                    <label class="col-form-label mt-4" for="title">Trick's name</label>
-                    <input type="text" class="form-control" placeholder="Trick's name" id="title" value="{{ tricks.name }}">
+                    <div class="text-center" >
+                        <div class="card-body">
+                            {% if is_granted('ROLE_USER') %}
+                                <a href="" class="btn btn-danger">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
+                                    </svg>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
+            </div>
+            {% endfor %}
+        </div>
 
-                <div class="form-group">
-                    <label for="description" class="form-label mt-4">Description</label>
-                    <textarea class="form-control" placeholder="Trick's description" id="description"  rows="5">{{ tricks.description }}</textarea>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-label mt-4" for="category" >Trick's category</label>
-                    <input type="text" class="form-control" placeholder="Trick's category" id="category" value="">
-                </div>
+            {{ form_start(tricks_form) }}
 
-                <div class="form-group">
-                    <label class="form-label mt-4" for="images" >Images</label>
-                </div>
-                <div class="form-group">
-                    <label class="form-label mt-4" for="videos" >Videos</label>
-                </div>
+            <div class="form-group">
+                <label class="col-form-label mt-4" for="name">Trick's name</label>
+                {{ form_widget(tricks_form.name) }}
+            </div>
+            <div class="form-group">
+                <label class="form-label mt-4" for="description">Description</label>
+                {{ form_widget(tricks_form.description) }}
+            </div>
+            <div class="form-group">
+                <label class="form-label mt-4" for="category" >Trick's category</label>
+                {{ form_widget(tricks_form.category) }}
+            </div>
+            <div class="form-group">
+                <label class="form-label mt-4" for="images" >Images</label>
+                {{ form_widget(tricks_form.images) }}
+            </div>
+            <div class="form-group">
+                <label class="form-label mt-4" for="videos" >Videos</label>
+                {{ form_widget(tricks_form.videos) }}
+            </div>
+            <br>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('modify_tricks') }}">
+            <button type="submit" class="btn btn-primary">Submit</button>
 
-                <br>
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token('modify_tricks') }}">
-                <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+            {{ form_end(tricks_form) }}
+
     </div>
 
 {% endblock %}

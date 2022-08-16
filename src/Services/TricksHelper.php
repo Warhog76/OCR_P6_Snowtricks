@@ -7,6 +7,7 @@ use App\Entity\Tricks;
 use App\Repository\MediaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -67,6 +68,29 @@ class TricksHelper extends AbstractController
             $this->entityManager->persist($vidUrl);
             $tricks->addMedium($vidUrl);
 
+    }
+
+    /**
+     * @param Tricks|null $tricks
+     * @param FormInterface $form
+     * @param TricksHelper $helper
+     * @return void
+     */
+    public function extracted(?Tricks $tricks, FormInterface $form, TricksHelper $helper): void
+    {
+        $tricks->setCreatedAt(new \DateTimeImmutable());
+
+        $user = $this->getUser();
+        $tricks->setUser($user);
+
+        $images = $form->get('images')->getData();
+        $helper->imageUpload($tricks, $images);
+
+        $video = $form->get('videos')->getData();
+        $helper->videoUpload($tricks, $video);
+
+        $this->entityManager->persist($tricks);
+        $this->entityManager->flush();
     }
 
 }

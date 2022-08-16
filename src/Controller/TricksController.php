@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
-use App\Entity\Media;
 use App\Entity\Tricks;
 use App\Form\CommentFormType;
 use App\Form\TricksFormType;
@@ -48,19 +47,7 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $tricks->setCreatedAt(new \DateTimeImmutable());
-
-            $user = $this->getUser();
-            $tricks->setUser($user);
-
-            $images = $form->get('images')->getData();
-            $helper->imageUpload($tricks, $images);
-
-            $video = $form->get('videos')->getData();
-            $helper->videoUpload($tricks,$video);
-
-            $this->entityManager->persist($tricks);
-            $this->entityManager->flush();
+            $helper->extracted($tricks, $form, $helper);
             $this->addFlash('success', 'Trick created');
 
             return $this->redirectToRoute('show', [
@@ -110,18 +97,14 @@ class TricksController extends AbstractController
     }
 
     #[Route('/tricks/edit/{id}', name: 'tricks_modify')]
-    public function modify($id,Request $request, Tricks $tricks, MediaRepository $mediaRepo): Response
+    public function modify($id, Request $request, TricksHelper $helper, TricksRepository $tricksRepo, MediaRepository $mediaRepo): Response
     {
-
+        $tricks = $tricksRepo->find($id);
         $form = $this->createForm(TricksFormType::class, $tricks);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $tricks=$form->getData();
-
-            $this->entityManager->persist($tricks);
-            $this->entityManager->flush();
+            $helper->extracted($tricks, $form, $helper);
 
             $this->addFlash('success', 'Trick modified');
 
@@ -130,8 +113,8 @@ class TricksController extends AbstractController
             ]);
         }
             return $this->render('tricks/modify.html.twig', [
+                'tricks_form' => $form->createView(),
                 'tricks' => $tricks,
-                'form' => $form,
                 'medias' => $mediaRepo->findby([
                     'tricks' => $tricks->getId()]),
             ]);
@@ -158,4 +141,6 @@ class TricksController extends AbstractController
 
         return $this->redirectToRoute('home');
     }
+
+
 }
