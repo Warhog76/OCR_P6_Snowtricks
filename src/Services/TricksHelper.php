@@ -84,10 +84,16 @@ class TricksHelper extends AbstractController
         $tricks->setUser($user);
 
         $images = $form->get('images')->getData();
-        $helper->imageUpload($tricks, $images);
+        if($images != null)
+        {
+            $helper->imageUpload($tricks, $images);
+        }
 
         $video = $form->get('videos')->getData();
+        if($video != null)
+        {
         $helper->videoUpload($tricks, $video);
+        }
 
         $this->entityManager->persist($tricks);
         $this->entityManager->flush();
