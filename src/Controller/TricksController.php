@@ -32,10 +32,9 @@ class TricksController extends AbstractController
     #[Route("", name: 'home')]
     public function home(TricksRepository $trickRepo): Response
     {
-        $tricks = $trickRepo->findAll();
 
         return $this->render('home.html.twig',  [
-            'tricks' => $tricks
+            'tricks' => $trickRepo->findAll()
         ]);
     }
 
