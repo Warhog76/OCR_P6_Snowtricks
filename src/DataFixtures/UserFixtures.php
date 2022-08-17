@@ -53,5 +53,10 @@ class UserFixtures extends Fixture
 
         $manager->flush();
 
+        //Reference
+        $this->addReference('user1', $user1);
+        $this->addReference('user2', $user2);
+        $this->addReference('user3', $user3);
+        $this->addReference('user4', $user4);
     }
 }

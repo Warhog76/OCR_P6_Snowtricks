@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TricksRepository;
+use App\Services\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -36,6 +37,9 @@ class Tricks
 
     #[ORM\OneToMany(mappedBy: 'tricks', targetEntity: Media::class)]
     private $media;
+
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    private $slug;
 
     public function __construct()
     {
@@ -171,5 +175,31 @@ class Tricks
         }
 
         return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Initialize slug before persist or update
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function initializeSlug(): void
+    {
+        if (empty($this->slug)) {
+            $slug = slugify::slug($this->name);
+            $this->setSlug($slug);
+        }
     }
 }

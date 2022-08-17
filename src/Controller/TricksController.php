@@ -63,8 +63,7 @@ class TricksController extends AbstractController
     #[Route('/tricks/{id}', name: 'show')]
     public function show($id, Request $request, UserRepository $userRepo, CommentRepository $commentRepo, MediaRepository $mediaRepo): Response
     {
-        $repo = $this->entityManager->getRepository(Tricks::class);
-        $tricks = $repo->find($id);
+        $tricks = $this->entityManager->getRepository(Tricks::class)->find($id);
 
         $comment = new Comment();
         $form = $this->createForm(CommentFormType::class, $comment);
