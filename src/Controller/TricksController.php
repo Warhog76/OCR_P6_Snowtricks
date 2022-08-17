@@ -46,6 +46,7 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $tricks->initializeSlug();
             $helper->extracted($tricks, $form, $helper);
             $this->addFlash('success', 'Trick created');
 
