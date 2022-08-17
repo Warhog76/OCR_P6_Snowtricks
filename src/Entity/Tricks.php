@@ -7,6 +7,7 @@ use App\Services\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TricksRepository::class)]
 class Tricks
@@ -17,9 +18,15 @@ class Tricks
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
     private ?string $name = null;
 
     #[ORM\Column(type: 'text')]
+    #[Assert\Length(min:'10', minMessage: 'Your description must contain at least 10 characters')]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    #[Assert\Regex(pattern:'/[a-zA-Z0-9._\p{L}-]{1,20}/')]
     private ?string $description = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
@@ -33,13 +40,14 @@ class Tricks
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'tricks')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
     private ?Category $category;
 
     #[ORM\OneToMany(mappedBy: 'tricks', targetEntity: Media::class)]
     private $media;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
-    private $slug;
+    private ?string $slug;
 
     public function __construct()
     {
