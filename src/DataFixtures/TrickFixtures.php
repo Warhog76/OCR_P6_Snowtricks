@@ -22,6 +22,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         $trick->setCreatedAt(new DateTimeImmutable());
         $trick->setCategory($this->getReference('Category'));
         $trick->setUser($this->getReference('user1'));
+        $trick->initializeSlug();
         $manager->persist($trick);
 
         $trick2 = new Tricks();
@@ -30,6 +31,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         $trick2->setCreatedAt(new DateTimeImmutable());
         $trick2->setCategory($this->getReference('Category2'));
         $trick2->setUser($this->getReference('user2'));
+        $trick2->initializeSlug();
         $manager->persist($trick2);
 
         $trick3 = new Tricks();
@@ -38,6 +40,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         $trick3->setCreatedAt(new DateTimeImmutable());
         $trick3->setCategory($this->getReference('Category3'));
         $trick3->setUser($this->getReference('user3'));
+        $trick3->initializeSlug();
         $manager->persist($trick3);
 
         $trick4 = new Tricks();
@@ -46,6 +49,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         $trick4->setCreatedAt(new DateTimeImmutable());
         $trick4->setCategory($this->getReference('Category'));
         $trick4->setUser($this->getReference('user4'));
+        $trick4->initializeSlug();
         $manager->persist($trick4);
 
         $trick5 = new Tricks();
@@ -54,6 +58,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         $trick5->setCreatedAt(new DateTimeImmutable());
         $trick5->setCategory($this->getReference('Category'));
         $trick5->setUser($this->getReference('user1'));
+        $trick5->initializeSlug();
         $manager->persist($trick5);
 
         $trick6 = new Tricks();
@@ -62,6 +67,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         $trick6->setCreatedAt(new DateTimeImmutable());
         $trick6->setCategory($this->getReference('Category2'));
         $trick6->setUser($this->getReference('user2'));
+        $trick6->initializeSlug();
         $manager->persist($trick6);
 
         $trick7 = new Tricks();
@@ -70,6 +76,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         $trick7->setCreatedAt(new DateTimeImmutable());
         $trick7->setCategory($this->getReference('Category3'));
         $trick7->setUser($this->getReference('user3'));
+        $trick7->initializeSlug();
         $manager->persist($trick7);
 
         $trick8 = new Tricks();
@@ -78,6 +85,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         $trick8->setCreatedAt(new DateTimeImmutable());
         $trick8->setCategory($this->getReference('Category4'));
         $trick8->setUser($this->getReference('user4'));
+        $trick8->initializeSlug();
         $manager->persist($trick8);
 
         $trick9 = new Tricks();
@@ -88,6 +96,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         $trick9->setCreatedAt(new DateTimeImmutable());
         $trick9->setCategory($this->getReference('Category'));
         $trick9->setUser($this->getReference('user1'));
+        $trick9->initializeSlug();
         $manager->persist($trick9);
 
         $trick10 = new Tricks();
@@ -97,6 +106,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         $trick10->setCreatedAt(new DateTimeImmutable());
         $trick10->setCategory($this->getReference('Category2'));
         $trick10->setUser($this->getReference('user2'));
+        $trick10->initializeSlug();
         $manager->persist($trick10);
 
         $manager->flush();
