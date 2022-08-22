@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Tricks;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,5 +38,21 @@ class TricksRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    // /**
+    //  * @return a trick with its category, its images, its videos
+    //  */
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findCompleteTrick(string $slug)
+    {
+        return $this->createQueryBuilder('t')
+            ->innerJoin('t.category', 'tc')->addSelect('tc')
+            ->where('t.slug = :slug')->setParameter('slug', $slug)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
     }
 }

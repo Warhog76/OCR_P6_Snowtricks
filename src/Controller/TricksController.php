@@ -12,6 +12,7 @@ use App\Repository\TricksRepository;
 use App\Repository\UserRepository;
 use App\Services\TricksHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -32,10 +33,9 @@ class TricksController extends AbstractController
     #[Route("", name: 'home')]
     public function home(TricksRepository $trickRepo): Response
     {
-        $tricks = $trickRepo->findAll();
 
         return $this->render('home.html.twig',  [
-            'tricks' => $tricks
+            'tricks' => $trickRepo->findAll()
         ]);
     }
 
@@ -47,11 +47,12 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $tricks->initializeSlug();
             $helper->extracted($tricks, $form, $helper);
             $this->addFlash('success', 'Trick created');
 
             return $this->redirectToRoute('show', [
-                'id' => $tricks->getId(),
+                'slug' => $tricks->getSlug(),
             ]);
         }
 
@@ -61,11 +62,10 @@ class TricksController extends AbstractController
         );
     }
 
-    #[Route('/tricks/{id}', name: 'show')]
-    public function show($id, Request $request, UserRepository $userRepo, CommentRepository $commentRepo, MediaRepository $mediaRepo): Response
+    #[Route('/tricks/{slug}', name: 'show')]
+    public function show($slug, Request $request, UserRepository $userRepo, CommentRepository $commentRepo, MediaRepository $mediaRepo): Response
     {
-        $repo = $this->entityManager->getRepository(Tricks::class);
-        $tricks = $repo->find($id);
+        $tricks = $this->entityManager->getRepository(Tricks::class)->findCompleteTrick($slug);
 
         $comment = new Comment();
         $form = $this->createForm(CommentFormType::class, $comment);
@@ -86,7 +86,7 @@ class TricksController extends AbstractController
         return $this->render('tricks/show.html.twig', [
             'tricks' => $tricks,
             'user' => $userRepo->find([
-                'id' => $tricks->getuser()]),
+                'id' => $tricks->getUser()]),
             'medias' => $mediaRepo->findby([
                 'tricks' => $tricks->getId()]),
             'comments' => $commentRepo->findBy([
@@ -96,10 +96,13 @@ class TricksController extends AbstractController
         );
     }
 
-    #[Route('/tricks/edit/{id}', name: 'tricks_modify')]
-    public function modify($id, Request $request, TricksHelper $helper, TricksRepository $tricksRepo, MediaRepository $mediaRepo): Response
+    /**
+     * @throws NonUniqueResultException
+     */
+    #[Route('/tricks/edit/{slug}', name: 'tricks_modify')]
+    public function modify($slug, Request $request, TricksHelper $helper, TricksRepository $tricksRepo, MediaRepository $mediaRepo): Response
     {
-        $tricks = $tricksRepo->find($id);
+        $tricks = $tricksRepo->findCompleteTrick($slug);
         $form = $this->createForm(TricksFormType::class, $tricks);
 
         $form->handleRequest($request);
@@ -109,8 +112,11 @@ class TricksController extends AbstractController
             $this->addFlash('success', 'Trick modified');
 
             return $this->redirectToRoute('show', [
-                'id' => $tricks->getId(),
+                'slug' => $tricks->getSlug(),
             ]);
+        }else{
+
+            $this->addFlash('warning', 'One or more fields appear to be incorrect or missing');
         }
             return $this->render('tricks/modify.html.twig', [
                 'tricks_form' => $form->createView(),

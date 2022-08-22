@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
@@ -19,15 +21,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    #[Assert\Length(min:'5', max:'15' , minMessage: 'Your username must contain at least 5 characters and maximum 15 characters')]
+    #[Assert\Regex(pattern:'/[a-zA-Z._\p{L}-]{1,20}/', message:"Not valid name: juste letter for name")]
     private ?string $username = null;
 
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
     #[ORM\Column(type: 'string')]
+    #[Assert\Length(min:'8', minMessage: 'Your password must contain at least 8 characters')]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
     private ?string $password = null;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Email(message: 'The email {{ value }} is not a valid email.')]
+    #[Assert\Regex(
+        pattern: "/^[a-zA-Z_.-]+@[a-zA-Z-]+\.[a-zA-Z-.]+$/",
+        message: "valid email : test@live.fr -> not figures, special character etc…",
+        match: true)]
     private ?string $email = null;
 
     #[ORM\Column(type: 'boolean')]
