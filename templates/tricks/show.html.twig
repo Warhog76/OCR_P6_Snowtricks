@@ -4,7 +4,7 @@
     {% include 'macros/alerts.html.twig' %}
 
     <!-- Header -->
-    <header class="masthead" style="height: 50vh;background: url no-repeat;background-size: cover;">
+    <header class="masthead" style="height: 50vh; background-size: cover;">
         <div class="container d-flex h-100 align-items-center">
             <div class="mx-auto text-center">
                 <h1 class="text-uppercase mx-auto my-0">{{ tricks.name }}</h1>
@@ -12,11 +12,15 @@
         </div>
     </header>
 
-    <div class="container">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 d-none d-lg-block">
+<div class="container">
+    <div class="album py-5">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             {% if(medias == null) %}
+            <div class="col">
+                <div class="card shadow-sm">
                 <img src="{{ asset('default_images/tricks.jpg') }}" alt="">
-
+                </div>
+            </div>
             {% else %}
                 {% for media in medias %}
                     {% if (media.type == "video") %}
@@ -32,6 +36,7 @@
             {% endif %}
         </div>
     </div>
+</div>
 
     <!-- Tricks -->
     <div class="container">
