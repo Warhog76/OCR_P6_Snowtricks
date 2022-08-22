@@ -44,6 +44,7 @@ class Tricks
     private ?Category $category;
 
     #[ORM\OneToMany(mappedBy: 'tricks', targetEntity: Media::class)]
+    #[Assert\NotNull]
     private $media;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]

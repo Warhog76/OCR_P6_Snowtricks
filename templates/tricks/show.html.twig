@@ -13,7 +13,7 @@
     </header>
 
     <div class="container">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 d-none d-lg-block">
             {% if(medias == null) %}
                 <img src="{{ asset('default_images/tricks.jpg') }}" alt="">
 
@@ -81,17 +81,16 @@
                 {% for comment in comments %}
                     <div class="d-flex justify-content-start align-items-center mb-3 w-100 trick-comment">
                         <div class="trick-comment-avatar">
-                            <img class="avatar mr-4" src="{% if comment.user.avatar is not null %}{{ asset('images/users/'~comment.user.avatar) }}{% else %}{{ asset('/default_images/avatar.png') }}{% endif %}" width="100" height="100" alt=""/>
+                            <img class="avatar mr-4" src="{% if comment.user.avatar is not null %}{{ asset('images/users/'~comment.user.avatar) }}{% else %}{{ asset('/default_images/avatar.png') }}{% endif %}" width="75" height="75" alt=""/>
                         </div>
                         <div class="text-justify trick-comment-content mb-2">
                             <p>{{ comment.message }}</p>
                             <p class="pr-2 mb-0">
-                                {{ comment.user.username }}
-                                -
-                                created on {{ comment.createdAt|format_datetime(locale='en',pattern="EEEE dd MMMM YYYY") }}
+                                created on {{ comment.createdAt|format_datetime(locale='en',pattern="EEEE dd MMMM YYYY") }} by {{ comment.user.username }}
                             </p>
                         </div>
                     </div>
+                    <hr>
                 {% endfor %}
             {% endif %}
             <button type="button" class="btn btn-primary loadMoreBtn" id="loadMoreCommentsBtn">
