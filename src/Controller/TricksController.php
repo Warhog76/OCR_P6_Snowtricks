@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Entity\Tricks;
 use App\Form\CommentFormType;
 use App\Form\TricksFormType;
+use App\Repository\CategoryRepository;
 use App\Repository\CommentRepository;
 use App\Repository\MediaRepository;
 use App\Repository\TricksRepository;

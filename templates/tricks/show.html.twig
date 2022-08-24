@@ -13,7 +13,13 @@
     </header>
 
 <div class="container">
-    <div class="album py-5">
+
+    <div class="row py-4 justify-content-center d-xl-none">
+    <button type="button" class="btn btn-primary loadMoreBtn" id="loadMoreMediaBtn">
+        <i class="fas fa-spinner mr-3"></i>See medias</button>
+    </div>
+
+    <div class="album py-5 d-none d-xl-block">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             {% if(medias == null) %}
             <div class="col">
@@ -98,8 +104,6 @@
                     <hr>
                 {% endfor %}
             {% endif %}
-            <button type="button" class="btn btn-primary loadMoreBtn" id="loadMoreCommentsBtn">
-                <i class="fas fa-spinner mr-3"></i>Load more</button>
         </div>
     </div>
 {% endblock %}
