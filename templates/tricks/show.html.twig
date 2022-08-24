@@ -12,37 +12,55 @@
         </div>
     </header>
 
-<div class="container">
-
-    <div class="row py-4 justify-content-center d-xl-none">
-    <button type="button" class="btn btn-primary loadMoreBtn" id="loadMoreMediaBtn">
-        <i class="fas fa-spinner mr-3"></i>See medias</button>
-    </div>
-
-    <div class="album py-5 d-none d-xl-block">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            {% if(medias == null) %}
-            <div class="col">
-                <div class="card shadow-sm">
-                <img src="{{ asset('default_images/tricks.jpg') }}" alt="">
+    <div class="container">
+        <!-- Modal system for medias in responsive mode -->
+        <div class="row py-4 justify-content-center d-xl-none">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loadMoreMedias">
+                <i class="fas fa-spinner mr-3"></i>See medias</button>
+        </div>
+        <div class="modal fade" id="loadMoreMedias" tabindex="-1" aria-labelledby="loadMoreMedias" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal heading -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteTricksLabel">Medias</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- Modal body with image -->
+                    <div class="modal-body">
+                        {% for media in medias %}
+                            <img src="{{ asset(media.path) }}" class="img-fluid" alt="" >
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
-            {% else %}
-                {% for media in medias %}
-                    {% if (media.type == "video") %}
-                        <iframe width="560" height="315" src="{{ asset(media.name) }}" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    {% else %}
-                        <div class="col">
-                            <div class="card shadow-sm">
-                                <img src="{{ asset(media.path) }}" class="img-fluid" alt="" >
+        </div>
+
+        <!-- All medias in fullscreen mode -->
+        <div class="album py-5 d-none d-xl-block">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                {% if(medias == null) %}
+                <div class="col">
+                    <div class="card shadow-sm">
+                    <img src="{{ asset('default_images/tricks.jpg') }}" alt="">
+                    </div>
+                </div>
+                {% else %}
+                    {% for media in medias %}
+                        {% if (media.type == "video") %}
+                            <iframe width="560" height="315" src="{{ asset(media.name) }}" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        {% else %}
+                            <div class="col">
+                                <div class="card shadow-sm">
+                                    <img src="{{ asset(media.path) }}" class="img-fluid" alt="" >
+                                </div>
                             </div>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
 
     <!-- Tricks -->
     <div class="container">
