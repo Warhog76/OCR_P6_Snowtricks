@@ -58,7 +58,7 @@ body {
     width: 140px;
 }
 
-#information {
+#tricks {
     background: url("/public/default_images/home.jpeg") no-repeat center center fixed;
     display: table;
     height: 800px;

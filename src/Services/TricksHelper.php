@@ -4,12 +4,10 @@ namespace App\Services;
 
 use App\Entity\Media;
 use App\Entity\Tricks;
-use App\Repository\MediaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 class TricksHelper extends AbstractController
 {
@@ -21,7 +19,7 @@ class TricksHelper extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    private function renamePath(UploadedFile $image): string
+    public function renamePath(UploadedFile $image): string
     {
         return md5(uniqid()).'.'.$image->guessExtension();
     }
