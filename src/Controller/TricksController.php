@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Entity\Tricks;
 use App\Form\CommentFormType;
 use App\Form\TricksFormType;
+use App\Repository\CategoryRepository;
 use App\Repository\CommentRepository;
 use App\Repository\MediaRepository;
 use App\Repository\TricksRepository;
@@ -63,7 +64,7 @@ class TricksController extends AbstractController
     }
 
     #[Route('/tricks/{slug}', name: 'show')]
-    public function show($slug, Request $request, UserRepository $userRepo, CommentRepository $commentRepo, MediaRepository $mediaRepo): Response
+    public function show($slug, Request $request, UserRepository $userRepo, CommentRepository $commentRepo, MediaRepository $mediaRepo, CategoryRepository $categoryRepo): Response
     {
         $tricks = $this->entityManager->getRepository(Tricks::class)->findCompleteTrick($slug);
 
@@ -87,8 +88,10 @@ class TricksController extends AbstractController
             'tricks' => $tricks,
             'user' => $userRepo->find([
                 'id' => $tricks->getUser()]),
-            'medias' => $mediaRepo->findby([
+            'medias' => $mediaRepo->findBy([
                 'tricks' => $tricks->getId()]),
+            'category' => $categoryRepo->findBy([
+                'id' => $tricks->getCategory()]),
             'comments' => $commentRepo->findBy([
                 'tricks' => $tricks->getId()]),
             'comment_form' => $form->createView()
