@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,5 +38,16 @@ class CommentRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findAllCommentsByDate($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.tricks_id = :val')
+            ->setParameter('val', $value)
+            ->orderBy('c.createdAt', 'DSC')
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult();
     }
 }

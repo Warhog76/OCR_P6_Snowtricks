@@ -58,18 +58,6 @@ body {
     width: 140px;
 }
 
-#tricks {
-    background: url("/public/default_images/home.jpeg") no-repeat center center fixed;
-    display: table;
-    height: 800px;
-    position: relative;
-    width: 100%;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
-
 #information .panel {
     opacity: 0.85;
 }
@@ -85,16 +73,4 @@ footer .glyphicon {
 
 footer .glyphicon:hover {
     color: #306d9f;
-}
-
-#footer {
-    background: url("/public/default_images/home.jpeg") no-repeat center center fixed;
-    display: table;
-    height: 25%;
-    position: relative;
-    width: 100%;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
 }

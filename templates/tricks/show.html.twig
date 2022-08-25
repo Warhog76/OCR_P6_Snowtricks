@@ -2,6 +2,7 @@
 
 {% block body %}
     {% include 'macros/alerts.html.twig' %}
+
 <div class="d-flex flex-column min-vh-100">
     <!-- Header -->
     <header class="masthead" style="height: 50vh; background-size: cover;">
@@ -29,6 +30,12 @@
                     <!-- Modal body with image -->
                     <div class="modal-body">
                         {% for media in medias %}
+                            {% if (media.type == "video") %}
+                            <iframe id="TricksVideo" width="450" height="350"
+                                    src="{{ asset(media.name) }}"
+                                    allowfullscreen>
+                            </iframe>
+                            {% endif %}
                             <img src="{{ asset(media.path) }}" class="img-fluid" alt="" >
                         {% endfor %}
                     </div>
