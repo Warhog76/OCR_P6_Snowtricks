@@ -1,3 +1,5 @@
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/b25447efb709441aa882e502659cc084)](https://www.codacy.com/gh/Warhog76/OCR_P6_Snowtricks/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Warhog76/OCR_P6_Snowtricks&amp;utm_campaign=Badge_Grade)
+
 # OCR_P6_Snowtricks
 
 ## Background
