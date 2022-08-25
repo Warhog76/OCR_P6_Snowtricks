@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class TricksHelper extends AbstractController
 {
-
     private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
@@ -26,8 +25,7 @@ class TricksHelper extends AbstractController
 
     public function imageUpload(Tricks $tricks, array $images): void
     {
-        foreach ($images as $image)
-        {
+        foreach ($images as $image) {
             $fileName = $this->renamePath($image);
             $image->move(
                 $this->getParameter('images_directory'),
@@ -44,28 +42,24 @@ class TricksHelper extends AbstractController
 
     public function videoValidator(string $value): string
     {
-            $pattern = "/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/";
+        $pattern = "/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/";
 
-            preg_match($pattern, $value, $matches);
+        preg_match($pattern, $value, $matches);
 
-            if (empty($matches[5]))
-            {
-                throw $this->createNotFoundException('l\'url n\'est pas bonne !');
-            }
-            return $matches[5];
-
+        if (empty($matches[5])) {
+            throw $this->createNotFoundException('l\'url n\'est pas bonne !');
+        }
+        return $matches[5];
     }
 
     public function videoUpload(Tricks $tricks, $video): void
     {
+        $vidUrl = new Media();
+        $vidUrl->setName('https://www.youtube.com/embed/' .$this->videoValidator($video));
+        $vidUrl->setType('video');
 
-            $vidUrl = new Media();
-            $vidUrl->setName('https://www.youtube.com/embed/' .$this->videoValidator($video));
-            $vidUrl->setType('video');
-
-            $this->entityManager->persist($vidUrl);
-            $tricks->addMedium($vidUrl);
-
+        $this->entityManager->persist($vidUrl);
+        $tricks->addMedium($vidUrl);
     }
 
     /**
@@ -82,19 +76,16 @@ class TricksHelper extends AbstractController
         $tricks->setUser($user);
 
         $images = $form->get('images')->getData();
-        if($images != null)
-        {
+        if ($images != null) {
             $helper->imageUpload($tricks, $images);
         }
 
         $video = $form->get('videos')->getData();
-        if($video != null)
-        {
-        $helper->videoUpload($tricks, $video);
+        if ($video != null) {
+            $helper->videoUpload($tricks, $video);
         }
 
         $this->entityManager->persist($tricks);
         $this->entityManager->flush();
     }
-
 }

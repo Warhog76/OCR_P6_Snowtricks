@@ -22,7 +22,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TricksController extends AbstractController
 {
-
     private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager, RequestStack $requestStack)
@@ -34,8 +33,7 @@ class TricksController extends AbstractController
     #[Route("", name: 'home')]
     public function home(TricksRepository $trickRepo): Response
     {
-
-        return $this->render('home.html.twig',  [
+        return $this->render('home.html.twig', [
             'tricks' => $trickRepo->findAll()
         ]);
     }
@@ -57,7 +55,9 @@ class TricksController extends AbstractController
             ]);
         }
 
-        return $this->render('tricks/new.html.twig',[
+        return $this->render(
+            'tricks/new.html.twig',
+            [
                 'tricks_form' => $form->createView(),
             ]
         );
@@ -84,7 +84,9 @@ class TricksController extends AbstractController
             $this->entityManager->flush();
         }
 
-        return $this->render('tricks/show.html.twig', [
+        return $this->render(
+            'tricks/show.html.twig',
+            [
             'tricks' => $tricks,
             'user' => $userRepo->find([
                 'id' => $tricks->getUser()]),
@@ -117,16 +119,15 @@ class TricksController extends AbstractController
             return $this->redirectToRoute('show', [
                 'slug' => $tricks->getSlug(),
             ]);
-        }else{
-
+        } else {
             $this->addFlash('warning', 'One or more fields appear to be incorrect or missing');
         }
-            return $this->render('tricks/modify.html.twig', [
-                'tricks_form' => $form->createView(),
-                'tricks' => $tricks,
-                'medias' => $mediaRepo->findby([
-                    'tricks' => $tricks->getId()]),
-            ]);
+        return $this->render('tricks/modify.html.twig', [
+            'tricks_form' => $form->createView(),
+            'tricks' => $tricks,
+            'medias' => $mediaRepo->findby([
+                'tricks' => $tricks->getId()]),
+        ]);
     }
 
     #[Route('/tricks/delete/{id}', name: 'tricks_delete')]
@@ -135,12 +136,12 @@ class TricksController extends AbstractController
         $tricks = $tricksRepo->find($id);
 
         $medias = $mediaRepo->findby(['tricks' => $tricks->getId()]);
-        foreach ($medias as $media){
+        foreach ($medias as $media) {
             $this->entityManager->remove($media);
         }
 
         $comments = $commentRepo->findby(['tricks' => $tricks->getId()]);
-        foreach ($comments as $comment){
+        foreach ($comments as $comment) {
             $this->entityManager->remove($comment);
         }
 
@@ -150,6 +151,4 @@ class TricksController extends AbstractController
 
         return $this->redirectToRoute('home');
     }
-
-
 }
