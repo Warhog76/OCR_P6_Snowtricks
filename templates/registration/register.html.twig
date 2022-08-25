@@ -3,31 +3,32 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
+<div class="d-flex flex-column min-vh-100">
+    <div class="container">
+        <div class="col-md-6 offset-md-3">
+            <div class="text-center" >
+                    <img class="mb-4" src="{{ asset('default_images/admin.png') }}" alt="" width="200" height="200">
+                    <h1 class="h3 mb-3 fw-normal">Register</h1>
+                    <br>
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
 
-<div class="container">
-    <div class="col-md-6 offset-md-3">
-        <div class="text-center" >
-                <img class="mb-4" src="{{ asset('default_images/admin.png') }}" alt="" width="200" height="200">
-                <h1 class="h3 mb-3 fw-normal">Register</h1>
-                <br>
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
+        {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.username) }}
+            {{ form_row(registrationForm.email) }}
+            {{ form_row(registrationForm.plainPassword, {
+                label: 'Password'
+            }) }}
+            {{ form_row(registrationForm.agreeTerms) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.username) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Create an account</button>
+                <br><br>
+        {{ form_end(registrationForm) }}
 
-            <button class="w-100 btn btn-lg btn-primary" type="submit">Create an account</button>
-            <br><br>
-    {{ form_end(registrationForm) }}
+                <a href="{{ path('login') }}" class="nav-link">Already an account</a>
 
-            <a href="{{ path('login') }}" class="nav-link">Already an account</a>
-
+            </div>
         </div>
     </div>
 </div>

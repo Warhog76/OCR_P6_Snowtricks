@@ -2,26 +2,21 @@
 
 namespace App\Controller;
 
+use App\Form\UserFormType;
 use App\Repository\UserRepository;
+use App\Services\TricksHelper;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
-    #[Route('/user', name: 'app_user')]
-    public function index(): Response
-    {
-        return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController',
-        ]);
-    }
 
-    #[Route('/user/reset', name: 'reset')]
-    public function resetPassword(): Response
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        return $this->render('user/reset.html.twig',
-        );
+        $this->entityManager = $entityManager;
     }
 
     #[Route('/user/profile', name: 'profile')]
@@ -35,9 +30,31 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/editProfile', name: 'editProfile')]
-    public function editProfile(): Response
+    public function editProfile(Request $request, UserRepository $userRepo, TricksHelper $helper): Response
     {
-        return $this->render('user/editProfile.html.twig',
+
+        $user = $userRepo->find([
+            'id' => $this->getUser()]);
+        $form = $this->createForm(UserFormType::class, $user);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'Profile modified');
+
+            return $this->redirectToRoute('profile',[
+                'user' => $user
+            ]);
+        }
+
+        return $this->render('user/editProfile.html.twig',[
+                'user_form' =>$form->createView(),
+                'user' => $user
+            ]
         );
     }
 

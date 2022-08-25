@@ -24,7 +24,8 @@ class MediaController extends AbstractController
     {
         $tricks = $tricksRepo->find($id);
 
-        $medias = $mediaRepo->findOneby(['tricks' => $tricks->getId()]);
+        $medias = $mediaRepo->findOneby([
+            'tricks' => $tricks->getId()]);
         $this->entityManager->remove($medias);
 
         $this->entityManager->flush();
