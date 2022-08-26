@@ -119,9 +119,8 @@ class TricksController extends AbstractController
             return $this->redirectToRoute('show', [
                 'slug' => $tricks->getSlug(),
             ]);
-        } else {
-            $this->addFlash('warning', 'One or more fields appear to be incorrect or missing');
         }
+
         return $this->render('tricks/modify.html.twig', [
             'tricks_form' => $form->createView(),
             'tricks' => $tricks,

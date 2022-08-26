@@ -5,13 +5,20 @@
 
 <div class="d-flex flex-column min-vh-100">
     <!-- Header -->
-    <header class="masthead" style="height: 50vh; background-size: cover;">
-        <div class="container d-flex h-100 align-items-center">
-            <div class="mx-auto text-center">
-                <h1 class="text-uppercase mx-auto my-0">{{ tricks.name }}</h1>
-            </div>
+
+    <div class="text-center">
+        {% if(medias == null) %}
+            <img src="{{ asset('default_images/tricks.jpg') }}" class="rounded mx-auto d-block" height="500px" alt="">
+        {% else %}
+            <img src="{{ asset(tricks.firstImage.path) }}" class="rounded mx-auto d-block" height="500px" alt="">
+        {% endif %}
+    </div>
+
+    <div class="container">
+        <div class="mx-auto text-center">
+            <h1 class="text-uppercase mx-auto my-0">{{ tricks.name }}</h1>
         </div>
-    </header>
+    </div>
 
     <div class="container">
         <!-- Modal system for medias in responsive mode -->
