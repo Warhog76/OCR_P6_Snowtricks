@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Entity\Media;
 use App\Entity\Tricks;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -21,6 +22,20 @@ class TricksHelper extends AbstractController
     public function renamePath(UploadedFile $image): string
     {
         return md5(uniqid()).'.'.$image->guessExtension();
+    }
+
+    public function avatarUpload(User $user, $form): void
+    {
+        $image = $form->get('avatar')->getData();
+
+        $fileName = $this->renamePath($image);
+        $image->move(
+            $this->getParameter('images_directory'),
+            $fileName
+        );
+
+        $user->setAvatar($fileName);
+        $this->entityManager->persist($user);
     }
 
     public function imageUpload(Tricks $tricks, array $images): void

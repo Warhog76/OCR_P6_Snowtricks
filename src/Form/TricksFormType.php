@@ -18,22 +18,21 @@ class TricksFormType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('category',EntityType::class,[
+            ->add('category', EntityType::class, [
                     'class' => Category::class,
                     'choice_label' => 'name'
             ])
-            ->add('images', FileType::class,[
+            ->add('images', FileType::class, [
                 'label' => false,
                 'multiple' => true,
                 'mapped' => false,
                 'required' => false
             ])
-            ->add('videos', UrlType::class,[
+            ->add('videos', UrlType::class, [
             'label' => false,
             'mapped' => false,
             'required' => false
             ]);
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void

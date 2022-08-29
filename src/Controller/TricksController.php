@@ -14,6 +14,7 @@ use App\Repository\UserRepository;
 use App\Services\TricksHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -82,7 +83,10 @@ class TricksController extends AbstractController
 
             $this->entityManager->persist($comment);
             $this->entityManager->flush();
+            $this->addFlash('success', 'Your comment has been successfully added');
         }
+
+        $comments = $commentRepo->findAllCommentsOrderByDate($tricks->getId());
 
         return $this->render(
             'tricks/show.html.twig',
@@ -94,8 +98,7 @@ class TricksController extends AbstractController
                 'tricks' => $tricks->getId()]),
             'category' => $categoryRepo->findBy([
                 'id' => $tricks->getCategory()]),
-            'comments' => $commentRepo->findBy([
-                'tricks' => $tricks->getId()]),
+            'comments' => $comments,
             'comment_form' => $form->createView()
             ]
         );
