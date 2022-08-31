@@ -120,7 +120,7 @@
     {% endif %}
 
     <!-- All comments -->
-    <div class="container">
+    <div class="container" id="comments">
         <div class="row py-3 justify-content-center" id="trickComments">
             {%  if (comments == null)  %}
                 <legend class="mt-4">No comments at this time... Be first!</legend>
@@ -141,7 +141,14 @@
                     </div>
                     <hr>
                 {% endfor %}
-
+            <div>
+                <ul class="pagination">
+                    {% for i in 1..lastPage %}
+                    <li class="page-item {% if i == _currentPage %}active{% endif %}">
+                        <a class="page-link" href="{{ path('show', {'slug': tricks.slug, 'page': i}) }}#comments">{{ i }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
             {% endif %}
             </div>
         </div>

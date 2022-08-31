@@ -65,7 +65,7 @@ class TricksController extends AbstractController
     }
 
     #[Route('/tricks/{slug}', name: 'show')]
-    public function show($slug, PaginatorHelper $paginatorHelper, Request $request, UserRepository $userRepo, CommentRepository $commentRepo, MediaRepository $mediaRepo, CategoryRepository $categoryRepo): Response
+    public function show($slug, Request $request, UserRepository $userRepo, CommentRepository $commentRepo, MediaRepository $mediaRepo, CategoryRepository $categoryRepo): Response
     {
         $tricks = $this->entityManager->getRepository(Tricks::class)->findCompleteTrick($slug);
 

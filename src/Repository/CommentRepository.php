@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,6 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CommentRepository extends ServiceEntityRepository
 {
+    const LIMIT = 10;
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Comment::class);
@@ -40,13 +42,22 @@ class CommentRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAllCommentsOrderByDate($value)
+    private function getQBAllCommentsOrderByDate($value): QueryBuilder
     {
         return $this->createQueryBuilder('c')
             ->where('c.tricks = :val')
             ->setParameter('val', $value)
-            ->orderBy('c.createdAt', 'ASC')
-            ->getQuery()
-            ->getResult();
+            ->orderBy('c.createdAt', 'ASC');
+    }
+
+    public function getPaginator($value, int $page): Paginator
+    {
+        $paginator = new Paginator($this->getQBAllCommentsOrderByDate($value));
+        $paginator
+           ->getQuery()
+           ->setFirstResult(self::LIMIT * ($page - 1))
+           ->setMaxResults(self::LIMIT);
+
+        return $paginator;
     }
 }
