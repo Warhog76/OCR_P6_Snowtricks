@@ -11,7 +11,6 @@ use App\Repository\CommentRepository;
 use App\Repository\MediaRepository;
 use App\Repository\TricksRepository;
 use App\Repository\UserRepository;
-use App\Services\PaginatorHelper;
 use App\Services\TricksHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -65,7 +64,7 @@ class TricksController extends AbstractController
     }
 
     #[Route('/tricks/{slug}', name: 'show')]
-    public function show($slug, Request $request, PaginatorHelper $paginator, UserRepository $userRepo, CommentRepository $commentRepo, MediaRepository $mediaRepo, CategoryRepository $categoryRepo): Response
+    public function show($slug, Request $request, UserRepository $userRepo, CommentRepository $commentRepo, MediaRepository $mediaRepo, CategoryRepository $categoryRepo): Response
     {
         $tricks = $this->entityManager->getRepository(Tricks::class)->findCompleteTrick($slug);
 
