@@ -86,8 +86,8 @@ class TricksController extends AbstractController
             $this->addFlash('success', 'Your comment has been successfully added');
         }
 
-        $comments = $commentRepo->findAllCommentsOrderByDate($tricks->getId());
-        $pagination = $paginatorHelper->paginate($comments);
+        $comments = $commentRepo->getPaginator($tricks->getId(), (int)$request->query->get('page', 1));
+        $lastPage = (int)ceil($comments->count() / $comments->getQuery()->getMaxResults());
 
         return $this->render(
             'tricks/show.html.twig',
@@ -100,8 +100,8 @@ class TricksController extends AbstractController
             'category' => $categoryRepo->findBy([
                 'id' => $tricks->getCategory()]),
             'comments' => $comments,
-            'paginator' => $pagination,
-            'comment_form' => $form->createView()
+            'comment_form' => $form->createView(),
+            'lastPage' => $lastPage
             ]
         );
     }

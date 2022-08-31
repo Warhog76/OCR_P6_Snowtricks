@@ -3,6 +3,8 @@
 {% block body %}
     {% include 'macros/alerts.html.twig' %}
 
+    {% set _currentPage = app.request.query.get('page') ?: 1 %}
+
 <div class="d-flex flex-column min-vh-100">
     <!-- Header -->
 
@@ -141,6 +143,7 @@
                 {% endfor %}
 
             {% endif %}
+            </div>
         </div>
     </div>
 </div>
