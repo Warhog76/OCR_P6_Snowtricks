@@ -3,15 +3,24 @@
 {% block body %}
     {% include 'macros/alerts.html.twig' %}
 
+    {% set _currentPage = app.request.query.get('page') ?: 1 %}
+
 <div class="d-flex flex-column min-vh-100">
     <!-- Header -->
-    <header class="masthead" style="height: 50vh; background-size: cover;">
-        <div class="container d-flex h-100 align-items-center">
-            <div class="mx-auto text-center">
-                <h1 class="text-uppercase mx-auto my-0">{{ tricks.name }}</h1>
-            </div>
+
+    <div class="text-center">
+        {% if(medias == null) %}
+            <img src="{{ asset('default_images/tricks.jpg') }}" class="rounded mx-auto d-block" height="500px" alt="">
+        {% else %}
+            <img src="{{ asset(tricks.firstImage.path) }}" class="rounded mx-auto d-block" height="500px" alt="">
+        {% endif %}
+    </div>
+
+    <div class="container">
+        <div class="mx-auto text-center">
+            <h1 class="text-uppercase mx-auto my-0">{{ tricks.name }}</h1>
         </div>
-    </header>
+    </div>
 
     <div class="container">
         <!-- Modal system for medias in responsive mode -->
@@ -111,7 +120,7 @@
     {% endif %}
 
     <!-- All comments -->
-    <div class="container">
+    <div class="container" id="comments">
         <div class="row py-3 justify-content-center" id="trickComments">
             {%  if (comments == null)  %}
                 <legend class="mt-4">No comments at this time... Be first!</legend>
@@ -132,7 +141,16 @@
                     </div>
                     <hr>
                 {% endfor %}
+            <div>
+                <ul class="pagination">
+                    {% for i in 1..lastPage %}
+                    <li class="page-item {% if i == _currentPage %}active{% endif %}">
+                        <a class="page-link" href="{{ path('show', {'slug': tricks.slug, 'page': i}) }}#comments">{{ i }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
             {% endif %}
+            </div>
         </div>
     </div>
 </div>

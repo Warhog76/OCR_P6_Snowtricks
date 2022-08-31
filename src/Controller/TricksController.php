@@ -11,6 +11,7 @@ use App\Repository\CommentRepository;
 use App\Repository\MediaRepository;
 use App\Repository\TricksRepository;
 use App\Repository\UserRepository;
+use App\Services\PaginatorHelper;
 use App\Services\TricksHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -22,7 +23,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TricksController extends AbstractController
 {
-
     private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager, RequestStack $requestStack)
@@ -34,8 +34,7 @@ class TricksController extends AbstractController
     #[Route("", name: 'home')]
     public function home(TricksRepository $trickRepo): Response
     {
-
-        return $this->render('home.html.twig',  [
+        return $this->render('home.html.twig', [
             'tricks' => $trickRepo->findAll()
         ]);
     }
@@ -57,7 +56,9 @@ class TricksController extends AbstractController
             ]);
         }
 
-        return $this->render('tricks/new.html.twig',[
+        return $this->render(
+            'tricks/new.html.twig',
+            [
                 'tricks_form' => $form->createView(),
             ]
         );
@@ -82,9 +83,15 @@ class TricksController extends AbstractController
 
             $this->entityManager->persist($comment);
             $this->entityManager->flush();
+            $this->addFlash('success', 'Your comment has been successfully added');
         }
 
-        return $this->render('tricks/show.html.twig', [
+        $comments = $commentRepo->getPaginator($tricks->getId(), (int)$request->query->get('page', 1));
+        $lastPage = (int)ceil($comments->count() / $comments->getQuery()->getMaxResults());
+
+        return $this->render(
+            'tricks/show.html.twig',
+            [
             'tricks' => $tricks,
             'user' => $userRepo->find([
                 'id' => $tricks->getUser()]),
@@ -92,9 +99,9 @@ class TricksController extends AbstractController
                 'tricks' => $tricks->getId()]),
             'category' => $categoryRepo->findBy([
                 'id' => $tricks->getCategory()]),
-            'comments' => $commentRepo->findBy([
-                'tricks' => $tricks->getId()]),
-            'comment_form' => $form->createView()
+            'comments' => $comments,
+            'comment_form' => $form->createView(),
+            'lastPage' => $lastPage
             ]
         );
     }
@@ -117,16 +124,14 @@ class TricksController extends AbstractController
             return $this->redirectToRoute('show', [
                 'slug' => $tricks->getSlug(),
             ]);
-        }else{
-
-            $this->addFlash('warning', 'One or more fields appear to be incorrect or missing');
         }
-            return $this->render('tricks/modify.html.twig', [
-                'tricks_form' => $form->createView(),
-                'tricks' => $tricks,
-                'medias' => $mediaRepo->findby([
-                    'tricks' => $tricks->getId()]),
-            ]);
+
+        return $this->render('tricks/modify.html.twig', [
+            'tricks_form' => $form->createView(),
+            'tricks' => $tricks,
+            'medias' => $mediaRepo->findby([
+                'tricks' => $tricks->getId()]),
+        ]);
     }
 
     #[Route('/tricks/delete/{id}', name: 'tricks_delete')]
@@ -135,12 +140,12 @@ class TricksController extends AbstractController
         $tricks = $tricksRepo->find($id);
 
         $medias = $mediaRepo->findby(['tricks' => $tricks->getId()]);
-        foreach ($medias as $media){
+        foreach ($medias as $media) {
             $this->entityManager->remove($media);
         }
 
         $comments = $commentRepo->findby(['tricks' => $tricks->getId()]);
-        foreach ($comments as $comment){
+        foreach ($comments as $comment) {
             $this->entityManager->remove($comment);
         }
 
@@ -150,6 +155,4 @@ class TricksController extends AbstractController
 
         return $this->redirectToRoute('home');
     }
-
-
 }

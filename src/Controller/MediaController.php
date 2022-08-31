@@ -11,7 +11,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MediaController extends AbstractController
 {
-
     private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
@@ -33,5 +32,4 @@ class MediaController extends AbstractController
 
         return $this->redirectToRoute('home');
     }
-
 }

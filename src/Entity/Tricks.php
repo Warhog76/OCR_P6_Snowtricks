@@ -153,7 +153,9 @@ class Tricks
 
     public function getFirstImage() : ?Media
     {
-        return $this->media->first() ?: null;
+        return $this->media->filter(function (Media $media) {
+            return $media->getType() === 'image';
+        })->first() ?: null;
     }
 
     /**

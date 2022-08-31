@@ -53,6 +53,6 @@ class TricksRepository extends ServiceEntityRepository
             ->where('t.slug = :slug')->setParameter('slug', $slug)
             ->getQuery()
             ->getOneOrNullResult()
-            ;
+        ;
     }
 }
