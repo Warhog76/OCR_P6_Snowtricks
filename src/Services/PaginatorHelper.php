@@ -3,53 +3,44 @@
 namespace App\Services;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Symfony\Component\HttpFoundation\Request;
 
 class PaginatorHelper
 {
-    /**
-     * @param $query
-     * @param Request $request
-     * @param int $limit
-     * @return Paginator
-     */
-    public function paginate($query, Request $request, int $limit): Paginator
+
+    private int $total;
+
+    private int $lastPage;
+
+    private $items;
+
+    public function paginate($query, int $page = 1, int $limit = 10): static
     {
-        $currentPage = $request->query->getInt('p') ?: 1;
         $paginator = new Paginator($query);
+
         $paginator
             ->getQuery()
-            ->setFirstResult($limit * ($currentPage - 1))
+            ->setFirstResult($limit * ($page - 1))
             ->setMaxResults($limit);
 
-        return $paginator;
+        $this->total = $paginator->count();
+        $this->lastPage = (int)ceil($paginator->count() / $paginator->getQuery()->getMaxResults());
+        $this->items = $paginator;
+
+        return $this;
     }
 
-    /**
-     * @param Paginator $paginator
-     * @return int
-     */
-    public function lastPage(Paginator $paginator): int
+    public function getTotal(): int
     {
-        return ceil($paginator->count() / $paginator->getQuery()->getMaxResults());
+        return $this->total;
     }
 
-    /**
-     * @param Paginator $paginator
-     * @return int
-     */
-    public function total(Paginator $paginator): int
+    public function getLastPage(): int
     {
-        return $paginator->count();
+        return $this->lastPage;
     }
 
-    /**
-     * @param Paginator $paginator
-     * @return bool
-     * @throws \Exception
-     */
-    public function currentPageHasNoResult(Paginator $paginator): bool
+    public function getItems()
     {
-        return !$paginator->getIterator()->count();
+        return $this->items;
     }
 }

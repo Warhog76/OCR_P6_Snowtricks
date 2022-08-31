@@ -4,8 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -42,18 +40,14 @@ class CommentRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAllCommentsOrderByDate($value, $page = 1, $commentsPerPage = 10): Paginator
+    public function findAllCommentsOrderByDate($value)
     {
-        $query = $this->createQueryBuilder('c')
+        return $this->createQueryBuilder('c')
             ->where('c.tricks = :val')
             ->setParameter('val', $value)
             ->orderBy('c.createdAt', 'ASC')
-            ->getQuery();
-
-        $paginator = new Paginator($query);
-        $paginator->getQuery()
-            ->setFirstResult($commentsPerPage*($page-1))
-            ->setMaxResults($commentsPerPage);
-        return $paginator;
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult();
     }
 }
