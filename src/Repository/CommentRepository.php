@@ -46,7 +46,6 @@ class CommentRepository extends ServiceEntityRepository
             ->where('c.tricks = :val')
             ->setParameter('val', $value)
             ->orderBy('c.createdAt', 'ASC')
-            ->setMaxResults(100)
             ->getQuery()
             ->getResult();
     }

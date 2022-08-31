@@ -16,7 +16,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
 
-        for ($k=1; $k < 10; $k++) {
+        for ($k=1; $k < 20; $k++) {
             $comment = new Comment();
             $comment->setMessage(substr(str_shuffle(str_repeat("#abcdefghilkmnopqrstuvwxyz", 5)), 0, 7));
             $comment->setCreatedAt(new DateTimeImmutable());

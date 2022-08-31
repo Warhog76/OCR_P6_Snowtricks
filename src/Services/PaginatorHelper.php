@@ -29,18 +29,4 @@ class PaginatorHelper
         return $this;
     }
 
-    public function getTotal(): int
-    {
-        return $this->total;
-    }
-
-    public function getLastPage(): int
-    {
-        return $this->lastPage;
-    }
-
-    public function getItems()
-    {
-        return $this->items;
-    }
 }
