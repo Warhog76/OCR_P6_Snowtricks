@@ -122,7 +122,7 @@
     <!-- All comments -->
     <div class="container" id="comments">
         <div class="row py-3 justify-content-center" id="trickComments">
-            {%  if (comments == null)  %}
+            {%  if (comments is empty)  %}
                 <legend class="mt-4">No comments at this time... Be first!</legend>
                 <hr>
             {% else %}
