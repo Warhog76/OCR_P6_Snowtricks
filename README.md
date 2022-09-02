@@ -29,11 +29,52 @@ For this project, you need :
 - Symfony 6
 
 ### Installation
-Work in progress
+Manually download the content of the Github repository to a location on your file system.\
+You can also use git.\
+In Git, go to the chosen location and execute the following command:
+```
+git clone https://github.com/Warhog76/OCR_P6_Snowtricks.git .
+```
+
+Open a command console and join the application root directory.\
+Install dependencies by running the following command:
+```
+composer install
+```
+
+### Database generation
+
+Change the database connection values for correct ones in the .env file.\
+Like the following example with a snowtricks named database to create:
+```
+DATABASE_URL="mysql://root:@127.0.0.1:3306/snowtricks?serverVersion=5.7&charset=utf8mb4"
+```
+
+In a new console placed in the root directory of the application;\
+Launch the creation of the database:
+```
+php bin/console doctrine:database:create
+```
+
+Then, build the database structure using the following command:
+```
+php bin/console doctrine:migrations:migrate
+```
+
+Finally, load the initial dataset into the database with example users.\
+if you want to load the initial dataset and generic users, use this command:
+```
+php bin/console doctrine:fixtures:load
+```
 
 ## Start project
 
-Work in progress
+Launch the Apache/Php runtime environment by using Symfony via the following command:
+```
+php bin/console server:run
+```
+Leave this console open.\
+Then consult the URL <http://127.0.0.1:8000> from your browser.
 
 ## Made with
 * [Bootstrap](http://materializecss.com) - Framework CSS (front-end)
