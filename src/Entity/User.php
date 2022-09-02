@@ -24,7 +24,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     #[Assert\NotNull]
     #[Assert\Length(min:'5', max:'15' , minMessage: 'Your username must contain at least 5 characters and maximum 15 characters')]
-    #[Assert\Regex(pattern:'/[a-zA-Z._\p{L}-]{1,20}/', message:"Not valid name: juste letter for name")]
     private ?string $username = null;
 
     #[ORM\Column(type: 'json')]
@@ -32,16 +31,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string')]
     #[Assert\Length(min:'8', minMessage: 'Your password must contain at least 8 characters')]
-    #[Assert\NotBlank]
-    #[Assert\NotNull]
     private ?string $password = null;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\Email(message: 'The email {{ value }} is not a valid email.')]
-    #[Assert\Regex(
-        pattern: "/^[a-zA-Z_.-]+@[a-zA-Z-]+\.[a-zA-Z-.]+$/",
-        message: "valid email : test@live.fr -> not figures, special character etc…",
-        match: true)]
     private ?string $email = null;
 
     #[ORM\Column(type: 'boolean')]
